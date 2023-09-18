@@ -24,21 +24,8 @@
             <input type="text" name="search" id="search" class="form-control" placeholder="Search Customer Data" />
         </div> --}}
         
-        <h2>Search for Patient Total Data : <span id="total_records"></span></h2>
-        <div class="col-12">
-        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" >
-            {{ csrf_field() }}
-            <div class="input-group">
-              <input type="text" name="search" id="search" class="form-control bg-light border-0 small" type="search" placeholder="Search for patient data" >
-              <div class="input-group-append">
-                {{-- <button class="btn btn-primary" type="button">
-                <i class="fas fa-search fa-sm"></i> --}}
-                </button>
-              </div>
-            </div>
-          </form>
-<br>
-<table class="table table-hover">
+        
+{{-- <table class="table table-hover">
     <thead class="table-primary">
         <tr>
             <th>#</th>
@@ -83,41 +70,6 @@
                 </tr>
                 @endif
         </tbody>
-</table>
-
-{{-- <script type="text/javascript">
-
-
-$(document).ready(function() {
-
-    fetch_patient_data();
-
-    function fetch_patient_data(query = '')
-    {
-        
-
-        $.ajax({
-            url:"{{ route('action') }}",
-            method: 'GET',
-            data:{query:query},
-            dataType:'json',
-            success:function(data)
-             {
-                $('tbody').html(data.table_data);
-                $('$total_records').text(data.total_data);
-             }
-        })
-        
-    }
-
-    $(document).on('keyup', '#search', function() {
-         var query = $(this).val();
-         fetch_patient_data(query);
-    });
-   
-});
-
-
-</script> --}}
+</table> --}}
 
 @endsection

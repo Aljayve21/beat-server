@@ -20,41 +20,31 @@
                 <input type="text" name="gender" class="form-control" placeholder="Gender">
             </div>
             <div class="col">
-                <input type="text" name="condition" class="form-control" placeholder="Condition">
+                <input type="text" name="Birthday" class="form-control" placeholder="Birthday">
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col mb-3">
-                <input type="text" name="heart_rate" class="form-control" placeholder="Heart Rate">
+            <div class="col">
+                <textarea type="text" name="Address" class="form-control" placeholder="Address"></textarea>
             </div>
             <div class="col">
-                <input type="text" name="respiratory_pressure" class="form-control" placeholder="Respiratory Pressure">
-            </div>
-            
-        
-        <div class="row mb-3">
-            <div class="col">
-                <input type="text" name="oxygen_level" class="form-control" placeholder="Oxygen Level">
+                <input type="text" name="Contact" class="form-control" placeholder="Contact No">
             </div>
             <div class="col">
-                <textarea class="form-control" name="blood_pressure" placeholder="Blood Pressure"></textarea>
-            </div>
-            
+                <input type="text" name="Guardian" class="form-control" placeholder="Guardian">
+        </div>
+        {{-- <div class="col">
+            <textarea class="form-control" name="blood_pressure" placeholder="Blood Pressure"></textarea>
         </div>
         <div class="row mb-3">
-
             <div class="col">
                 <input type="text" name="temperature" class="form-control" placeholder="Temperature">
             </div>
-            <div class="col">
-                <input type="text" name="bed_no" class="form-control" placeholder="Bed No">
-            </div>
-
-        </div>
+        </div> --}}
  
         <div class="row">
             <div class="mx-5">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary my-3 mx-2">Submit</button>
             </div>
         </div>
     </form>

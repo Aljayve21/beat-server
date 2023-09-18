@@ -21,7 +21,13 @@
     <li class="nav-item">
       <a class="nav-link" href="{{ route('patients') }}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Vital Log</span></a>
+        <span>Current Admit</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('patients.create') }}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Admission</span></a>
     </li>
     
     <li class="nav-item">
@@ -29,6 +35,20 @@
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Profile</span></a>
     </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('attendance') }}">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Attendance</span></a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Hospital Records</span></a>
+    </li>
+
+    
     
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
@@ -39,10 +59,6 @@
     </div>
 
 
-    <li class="nav-item">
-      <a class="nav-link" href="{{ route('patients.create') }}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Admission</span></a>
-    </li>
+    
     
   </ul>
