@@ -34,10 +34,29 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        Patient::create($request->all());
+        $data = $request->validate([
+            'name' => 'required|string',
+            'age' => 'required|integer',
+            'gender' => 'required|string',
+            'Birthday' => 'required|date',
+            'Address' => 'required|string',
+            'Contact' => 'required|string',
+            'Guardian' => 'required|string',
+            'room' => 'required|integer', // Ensure the 'room' field is validated
+        ]);
 
-        return redirect()->route('patients')->with('success', 'Patient added Successfully');
-    }
+        dd($data);
+
+        // $roomAvailability = Patient::checkRoomAvailability($data['room']);
+
+        // if (!$roomAvailability) {
+        // return back()->with('error', 'Room is full. Please choose another room.');
+        // }
+
+        $patient = Patient::create($data);
+
+        return redirect()->route('patients.show', $patient->id);
+        }
 
     /**
      * Display the specified resource.
@@ -48,6 +67,14 @@ class PatientController extends Controller
         return view('patients.show', compact('patient'));
     }
 
+    public function showCurrentAdmit($room)
+    {
+    $patients = Patient::all(); // Fetch all admission records (you might want to paginate this in a real application)
+    return view('patients.index', compact('patients', 'room'));
+    }
+
+
+    
     /**
      * Show the form for editing the specified resource.
      */

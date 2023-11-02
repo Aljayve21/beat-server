@@ -15,10 +15,17 @@
                 <input type="text" name="age" class="form-control" placeholder="Age">
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col">
-                <input type="text" name="gender" class="form-control" placeholder="Gender">
-            </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="gender">Gender :</label>
+            <select class="gender" id="gender" required>
+              {{-- <option selected></option> --}}
+              <option value="1">Male</option>
+              <option value="2">Female</option>
+              <option value="3">Other</option>
+            </select>
+          </div>
+
             <div class="col">
                 <input type="text" name="Birthday" class="form-control" placeholder="Birthday">
             </div>
@@ -41,6 +48,16 @@
                 <input type="text" name="temperature" class="form-control" placeholder="Temperature">
             </div>
         </div> --}}
+
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Room Choice: </label>
+            <select class="room" id="room" required>
+               @for ($i = 1; $i <= 14; $i++)
+               <option value="{{ $i }}">Room {{ $i }}</option>
+               @endfor
+            </select>
+          </div>
+        
  
         <div class="row">
             <div class="mx-5">

@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patients', function (Blueprint $table) {
+        Schema::create('admissions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('age');
+            $table->integer('age');
             $table->string('gender');
-            $table->string('Birthday');
-            $table->string('Address');
-            $table->integer('Contact');
-            $table->string('Guardian');
-            $table->integer('room');
-            $table->boolean('is_discharged')->default(false);
+            $table->date('birthday');
+            $table->string('address');
+            $table->string('contact_number');
+            $table->string('guardian');
+            $table->unsignedTinyInteger('room_choice')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('admissions');
     }
 };

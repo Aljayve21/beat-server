@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Patient Data Information')
+@section('title', 'Current Admit')
 
 @section('contents')
 
@@ -15,9 +15,12 @@
 </div>
 @endif
 
+<div class="container">
+    {{-- <h1>Room {{ $room }}</h1> --}}
+
 {{-- <h2>Search Customer Total Data : <span id="total_records"></span></h2> --}}
 
-{{-- <div class="row">
+ {{-- <div class="row">
     <h2>Search Customer Total Data : <span id="total_records"></span></h2>
     <div class="col-12">
         <div class="form-group">
@@ -25,51 +28,58 @@
         </div> --}}
         
         
-{{-- <table class="table table-hover">
+ <table class="table table-hover">
     <thead class="table-primary">
         <tr>
             <th>#</th>
             <th>Name</th>
             <th>Age</th>
             <th>Gender</th>
-            <th>Condition</th>
-            <th>Heart Rate</th>
-            <th>Respiratory Rate</th>
-            <th>Blood Pressure</th>
-            <th>Temperature</th>
-            <th>Action</th>
+            <th>Birthday</th>
+            <th>Address</th>
+            <th>Contact</th>
+            <th>Guardian</th>
+            <th>Guardian</th>
+            <th>Guardian</th>
+            <th>Guardian</th>
+            <th>Guardian</th>
+            <th>Room</th>
         </thead>
-        <tbody>+
+        <tbody>
             @if($patient->count() > 0)
-                @foreach($patient as $rs)
+                @foreach ($patients as $rs)
+                @if ($patient->room == $room)
                 <tr>
                     <td class="align-middle">{{ $loop->iteration }}</td>
                     <td class="align-middle">{{ $rs-> name }}</td>
                     <td class="align-middle">{{ $rs-> age }}</td>
                     <td class="align-middle">{{ $rs-> gender }}</td>
-                    <td class="align-middle">{{ $rs-> condition }}</td>
-                    <td class="align-middle">{{ $rs-> heart_rate }}</td>
+                    <td class="align-middle">{{ $rs-> Birthday }}</td>
+                    <td class="align-middle">{{ $rs-> Address }}</td>
+                    <td class="align-middle">{{ $rs-> Contact }}</td>
+                    <td class="align-middle">{{ $rs-> Guardian }}</td>
+                    <td class="align-middle">{{ $rs-> room }}</td>
+                    {{-- <td class="align-middle">{{ $rs-> heart_rate }}</td>
                     <td class="align-middle">{{ $rs-> respiratory_pressure }}</td>
                     <td class="align-middle">{{ $rs-> blood_pressure }}</td>
-                    <td class="align-middle">{{ $rs-> temperature }}</td>
+                    <td class="align-middle">{{ $rs-> temperature }}</td> --}}
                     <td class="align-middle">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="{{ route('patients.show', $rs->id )}}" type="button" class="btn btn-secondary">Detail</a>
-                            <a href="{{ route('patients.edit', $rs->id )}}" type="button" class="btn btn-warning">Edit</a>
-                            <form action="" method="POST" type="button" class="btn btn-danger p-0" onsubmit="return confirm('Delete?')">
+                            {{-- <a href="{{ route('patients.show', $rs->id )}}" type="button" class="btn btn-secondary">Detail</a> --}}
+                            {{-- <a href="{{ route('patients.edit', $rs->id )}}" type="button" class="btn btn-warning">Edit</a> --}}
+                            {{-- <form action="" method="POST" type="button" class="btn btn-danger p-0" onsubmit="return confirm('Delete?')">
                                 @csrf
                                 @method('DELETE')
                             <button class="btn btn-danger m-0">Delete</button>
-                        </div>
+                        </div> --}}
                     </td>
                 </tr>
+                @endif
                 @endforeach
-                @else
-                <tr>
-                    <td class="text-center" colspan="9">Data not Found</td>
-                </tr>
                 @endif
         </tbody>
-</table> --}}
+</table> 
+
+    </div>
 
 @endsection
