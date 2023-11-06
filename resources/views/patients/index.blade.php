@@ -44,7 +44,7 @@
         <tbody>
             @if($patient->count() > 0)
                 @foreach ($patient as $rs)
-                @if ($rs->room == $room)
+                @if($rs->room == $room)
                 <tr>
                     <td class="align-middle">{{ $loop->iteration }}</td>
                     <td class="align-middle">{{ $rs-> name }}</td>
@@ -57,7 +57,7 @@
                     <td class="align-middle">{{ $rs-> room }}</td>
                     <td class="align-middle">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <form method="POST" action="{{ route('patient.discharge', $rs->id) }}">
+                            <form method="POST" action="{{ route('patients.discharge', $rs->id) }}">
                                 @csrf
                                 <button type="submit">Discharge</button>
                             </form>                            

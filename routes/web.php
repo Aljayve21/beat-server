@@ -60,13 +60,11 @@ Route::middleware('auth')->group(function () {
         Route::post('store', 'store')->name('patients.store');
         // Route::get('show/{room}', 'room')->name('patients.show', 'views.dashboard');
         Route::get('show/{id}', 'show')->name('patients.show');
-        Route::get('index/{room}', [App\Http\Controllers\PatientController::class, 'showCurrentAdmit'])->name('patients.show');
-        // Route::get('patients/index/{room}', [App\Http\Controllers\PatientController::class,'showCurrentAdmit'])->name('patients.show');
+        Route::get('index/{room}', 'showCurrentAdmit')->name('patients.show');
         Route::get('edit/{id}', 'edit')->name('patients.edit');
         Route::put('edit/{id}', 'update')->name('patients.update');
         Route::delete('destroy/{id}', 'destroy')->name('patients.destroy');
-       
-        
+        Route::post('patients/discharge/{id}', 'discharge')->name('patients.discharge');
 
     });
 

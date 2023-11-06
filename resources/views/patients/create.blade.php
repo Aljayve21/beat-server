@@ -20,9 +20,8 @@
             <label class="input-group-text" for="gender">Gender :</label>
             <select name="gender" class="gender" id="gender" required>
               
-              <option value="1">Male</option>
-              <option value="2">Female</option>
-              <option value="3">Other</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
             </select>
           </div>
 
