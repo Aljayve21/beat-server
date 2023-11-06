@@ -18,8 +18,8 @@
 
         <div class="input-group mb-3">
             <label class="input-group-text" for="gender">Gender :</label>
-            <select class="gender" id="gender" required>
-              {{-- <option selected></option> --}}
+            <select name="gender" class="gender" id="gender" required>
+              
               <option value="1">Male</option>
               <option value="2">Female</option>
               <option value="3">Other</option>
@@ -40,18 +40,11 @@
             <div class="col">
                 <input type="text" name="Guardian" class="form-control" placeholder="Guardian">
         </div>
-        {{-- <div class="col">
-            <textarea class="form-control" name="blood_pressure" placeholder="Blood Pressure"></textarea>
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <input type="text" name="temperature" class="form-control" placeholder="Temperature">
-            </div>
-        </div> --}}
+        
 
         <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">Room Choice: </label>
-            <select class="room" id="room" required>
+            <label class="input-group-text" for="room">Room Choice: </label>
+            <select name="room" class="room" id="room" required>
                @for ($i = 1; $i <= 14; $i++)
                <option value="{{ $i }}">Room {{ $i }}</option>
                @endfor

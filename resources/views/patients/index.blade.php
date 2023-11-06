@@ -39,16 +39,12 @@
             <th>Address</th>
             <th>Contact</th>
             <th>Guardian</th>
-            <th>Guardian</th>
-            <th>Guardian</th>
-            <th>Guardian</th>
-            <th>Guardian</th>
             <th>Room</th>
         </thead>
         <tbody>
             @if($patient->count() > 0)
-                @foreach ($patients as $rs)
-                @if ($patient->room == $room)
+                @foreach ($patient as $rs)
+                @if ($rs->room == $room)
                 <tr>
                     <td class="align-middle">{{ $loop->iteration }}</td>
                     <td class="align-middle">{{ $rs-> name }}</td>
@@ -59,19 +55,12 @@
                     <td class="align-middle">{{ $rs-> Contact }}</td>
                     <td class="align-middle">{{ $rs-> Guardian }}</td>
                     <td class="align-middle">{{ $rs-> room }}</td>
-                    {{-- <td class="align-middle">{{ $rs-> heart_rate }}</td>
-                    <td class="align-middle">{{ $rs-> respiratory_pressure }}</td>
-                    <td class="align-middle">{{ $rs-> blood_pressure }}</td>
-                    <td class="align-middle">{{ $rs-> temperature }}</td> --}}
                     <td class="align-middle">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            {{-- <a href="{{ route('patients.show', $rs->id )}}" type="button" class="btn btn-secondary">Detail</a> --}}
-                            {{-- <a href="{{ route('patients.edit', $rs->id )}}" type="button" class="btn btn-warning">Edit</a> --}}
-                            {{-- <form action="" method="POST" type="button" class="btn btn-danger p-0" onsubmit="return confirm('Delete?')">
+                            <form method="POST" action="{{ route('patient.discharge', $rs->id) }}">
                                 @csrf
-                                @method('DELETE')
-                            <button class="btn btn-danger m-0">Delete</button>
-                        </div> --}}
+                                <button type="submit">Discharge</button>
+                            </form>                            
                     </td>
                 </tr>
                 @endif

@@ -10,13 +10,15 @@
         <button type="submit">Time In</button>
     </form>
     
-    <table>
+    <table class="table table-hover">
+        <thead class="table-primary">
         <tr>
             <th>Name</th>
             <th>Time In</th>
             <th>Time Out</th>
             <th>Action</th>
         </tr>
+        </thead>
         @foreach($time as $at)
         <tr>
             <td>{{ $at->name }}</td>

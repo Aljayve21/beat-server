@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('gender');
             $table->string('Birthday');
             $table->string('Address');
-            $table->integer('Contact');
+            $table->string('Contact');
             $table->string('Guardian');
             $table->integer('room');
             $table->boolean('is_discharged')->default(false);

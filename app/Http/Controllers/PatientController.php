@@ -13,12 +13,13 @@ class PatientController extends Controller
     public function index()
     {
         $patient = Patient::orderBy('created_at', 'DESC')->get();
+        
 
         return view('patients.index', compact('patient'));
 
        
     }
-
+    
     
 
     /**
@@ -43,9 +44,9 @@ class PatientController extends Controller
             'Contact' => 'required|string',
             'Guardian' => 'required|string',
             'room' => 'required|integer', // Ensure the 'room' field is validated
+            'is_discharged' => 'boolean',
         ]);
-
-        dd($data);
+        $data['is_discharged'] = $request->has('is_discharged');
 
         // $roomAvailability = Patient::checkRoomAvailability($data['room']);
 
@@ -55,7 +56,7 @@ class PatientController extends Controller
 
         $patient = Patient::create($data);
 
-        return redirect()->route('patients.show', $patient->id);
+        return redirect()->route('patients.show', $patient->id)->with('success', 'Patient added Successfully');;
         }
 
     /**
@@ -69,10 +70,12 @@ class PatientController extends Controller
 
     public function showCurrentAdmit($room)
     {
-    $patients = Patient::all(); // Fetch all admission records (you might want to paginate this in a real application)
-    return view('patients.index', compact('patients', 'room'));
-    }
+        $patients = Patient::where('room', $room)->get();
 
+
+        return view('patients.index', compact('patients', 'room'));
+    }
+    
 
     
     /**
@@ -108,4 +111,28 @@ class PatientController extends Controller
 
         return redirect()->route('patients')->with('success', 'Patient Data Deleted Successfully');
     }
+
+
+    public function discharged(Request $request, $id)
+    {
+        $patient = Patient::find($id);
+
+        if(!$patient) {
+            return redirect()->route('patient.index');
+        }
+
+        $patient->update(['is_discharged' => true]);
+
+        return redirect()->route('patient.show', $id);
+    }
+    
+
+    public function hospitalRecords()
+    {
+        $dischargedPatients = Patient::where('is_discharged', true)->get();
+
+        return view('hospitalrecords', compact('dischargedPatients'));
+    }
+
+    
 }
