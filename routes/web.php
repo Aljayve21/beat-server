@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
         Route::get('edit/{id}', 'edit')->name('patients.edit');
         Route::put('edit/{id}', 'update')->name('patients.update');
         Route::delete('destroy/{id}', 'destroy')->name('patients.destroy');
-        Route::post('patients/discharge/{id}', 'discharge')->name('patients.discharge');
+        Route::post('discharge/{id}', 'discharge')->name('patients.discharge');
 
     });
 

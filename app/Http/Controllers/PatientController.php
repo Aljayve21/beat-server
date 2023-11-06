@@ -72,9 +72,19 @@ class PatientController extends Controller
     {
         $patients = Patient::where('room', $room)->get();
 
-
-        return view('patients.index', compact('patients', 'room'));
+        if($patients !== null) {
+            return view('patients.index', compact('patients', 'room'));
+        } else {
+            $patientsCount = count($patients ?? []);
+            if ($patientsCount > 0) {
+                return view('patients.index', compact('patients', 'room'));
+            } else {
+                return "No patients found for the given room";
+            }
+        }
+        
     }
+    
     
 
     

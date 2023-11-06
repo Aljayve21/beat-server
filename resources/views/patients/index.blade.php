@@ -42,8 +42,8 @@
             <th>Room</th>
         </thead>
         <tbody>
-            @if($patient->count() > 0)
-                @foreach ($patient as $rs)
+            @if(count($patients) > 0)
+                @foreach ($patients as $rs)
                 @if($rs->room == $room)
                 <tr>
                     <td class="align-middle">{{ $loop->iteration }}</td>
@@ -65,6 +65,10 @@
                 </tr>
                 @endif
                 @endforeach
+                @else
+                <tr>
+                    <td colspan="10">No patients found for the given room</td>
+                    
                 @endif
         </tbody>
 </table> 
