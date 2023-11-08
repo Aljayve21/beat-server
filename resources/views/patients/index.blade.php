@@ -15,19 +15,13 @@
 </div>
 @endif
 
+@if($errors->has('room'))
+<div class="alert alert-danger">
+    {{ $errors->first('room') }}
+</div>
+@endif
+
 <div class="container">
-    {{-- <h1>Room {{ $room }}</h1> --}}
-
-{{-- <h2>Search Customer Total Data : <span id="total_records"></span></h2> --}}
-
- {{-- <div class="row">
-    <h2>Search Customer Total Data : <span id="total_records"></span></h2>
-    <div class="col-12">
-        <div class="form-group">
-            <input type="text" name="search" id="search" class="form-control" placeholder="Search Customer Data" />
-        </div> --}}
-        
-        
  <table class="table table-hover">
     <thead class="table-primary">
         <tr>
@@ -42,9 +36,7 @@
             <th>Room</th>
         </thead>
         <tbody>
-            @if(count($patients) > 0)
-                @foreach ($patients as $rs)
-                @if($rs->room == $room)
+                @foreach ($patient as $rs)
                 <tr>
                     <td class="align-middle">{{ $loop->iteration }}</td>
                     <td class="align-middle">{{ $rs-> name }}</td>
@@ -55,21 +47,15 @@
                     <td class="align-middle">{{ $rs-> Contact }}</td>
                     <td class="align-middle">{{ $rs-> Guardian }}</td>
                     <td class="align-middle">{{ $rs-> room }}</td>
-                    <td class="align-middle">
+                    {{-- <td class="align-middle">
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <form method="POST" action="{{ route('patients.discharge', $rs->id) }}">
                                 @csrf
                                 <button type="submit">Discharge</button>
                             </form>                            
-                    </td>
+                    </td> --}}
                 </tr>
-                @endif
                 @endforeach
-                @else
-                <tr>
-                    <td colspan="10">No patients found for the given room</td>
-                    
-                @endif
         </tbody>
 </table> 
 

@@ -1,39 +1,40 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Admission;
 use App\Models\Patient;
+use App\Models\VitalSign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 class DashboardController extends Controller
 {
-    public function index()
-    {
-    // Fetch data from the "Current Admit" page (you can use the Admission model)
-    $admissions = Admission::all();
     
-    return view('dashboard.index', compact('admissions'));
+    
+    public function showDashboard()
+    {
+        $patientData = [];
+        $vitalSignsData = [];
+
+        $patients = Patient::all();
+        $vitalSigns = VitalSign::all();
+
+    foreach ($patients as $patient) {
+        $roomNumber = $patient->room;
+        $patientData[$roomNumber] = $patient;
+    }
+
+    // Create an associative array for vital signs data based on patient ID
+    foreach ($vitalSigns as $vitalSign) {
+        $roomNumber = $vitalSign->patient->room;
+        $vitalSignsData[$roomNumber] = $vitalSign;
+    }
+
+    return view('dashboard')->with(compact('patientData', 'vitalSignsData'));
     }
 }
-    // public function index()
-    // {
-    //     $auth = User::where('role_as')->count();
-    //     $patient = Patient::count();
-
-    //     return view('admin.dashboard', compact('patient','auth'));
-    // }
-        
-        /* Controller Method */
     
-
-
-    // public function index() {
-    //     $Auth = User::where('role_as', '0')->count();
-    //     $Patient = Patient::count();
-    //     return view('admin.dashboard', compact('Auth','Patient'));
-    // }
 
     
 

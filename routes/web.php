@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PatientController;
 // use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TimeLogController;
+use App\Http\Controllers\VitalSignController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,24 +58,30 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(PatientController::class)->prefix('patients')->group(function () {
+        // Route::get('', 'index')->name('patients');
         Route::get('', 'index')->name('patients');
         Route::get('create', 'create')->name('patients.create');
         Route::post('store', 'store')->name('patients.store');
         // Route::get('show/{room}', 'room')->name('patients.show', 'views.dashboard');
-        Route::get('show/{id}', 'show')->name('patients.show');
-        Route::get('index/{room}', 'showCurrentAdmit')->name('patients.show');
+        Route::get('show/{room}', 'show')->name('patients.show');
+        // Route::get('showCurrentAdmit/{room}', 'showCurrentAdmit')->name('patients.show');
         Route::get('edit/{id}', 'edit')->name('patients.edit');
         Route::put('edit/{id}', 'update')->name('patients.update');
         Route::delete('destroy/{id}', 'destroy')->name('patients.destroy');
-        Route::post('discharge/{id}', 'discharge')->name('patients.discharge');
+        Route::post('discharge/{id}', 'discharged')->name('patients.discharge');
 
     });
 
+    Route::controller(DashboardController::class)->prefix('dashboard')->group(function () {
+        Route::get('/dashboard','showDashboard')->name('dashboard');
+    });
     
     
     Route::get('/hospitalrecords', [PatientController::class, 'hospitalRecords'])->name('hospitalrecords');
-    
-   
+    // Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+    Route::get('patients/{room}', [PatientController::class, 'PatientsByRoom'])->name('PatientsByRoom');
+    Route::get('vital-signs/{room}', [VitalSignController::class, 'VitalSignsByRoom'])->name('VitalSignsByRoom');
+    // Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
     
     Route::get('/profile', [App\Http\Controllers\AuthController::class, 'profile'])->name('profile');

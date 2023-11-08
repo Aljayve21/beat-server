@@ -4,6 +4,8 @@
 
 @section('contents')
 
+
+
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
   <h1 class="h3 mb-0 text-gray-800">Bed Available</h1>
 </div>
@@ -126,6 +128,30 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
+<script>
+    function displayPatientData(roomNumber, patientData, vitalSignsData) {
+     
+      var modal = document.getElementById('roomModal' + roomNumber);
+  
+     
+      var modalTitle = modal.querySelector('.modal-title');
+      modalTitle.textContent = 'Room ' + roomNumber;
+  
+     
+      modal.querySelector('#patientName').value = patientData.name;
+      
+  
+      
+      modal.querySelector('#respiratoryRate').value = vitalSignsData.respiratory_rate;
+      
+  
+      
+      $(modal).modal('show');
+    }
+  </script>
+  
+  
+
 <body>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -148,715 +174,60 @@
                   </div>
             </div> --}}
 
+            
 
+            @for ($roomNumber = 1; $roomNumber <=14; $roomNumber++)
             <div class="col-lg-3 mt-3">
               <div class="card" style="width: 10rem;">
                   <div class="card-body">
-                    <h5 class="card-title text-center">BED</h5>
-                    <p class="card-text text-center">101</p>
+                    <h5 class="card-title text-center">BED {{ $roomNumber }}</h5>
                     <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-                  
+                      <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $roomNumber }}">
+                        Select
+                          </button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 101</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
+            
+            <div class="modal fade" id="exampleModal{{ $roomNumber }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $roomNumber }}" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-center" id="exampleModalLabel{{ $roomNumber }}">Room {{ $roomNumber }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="col mb-3">
+                        <label class="form-label">Patient's Name</label>
+                        <input type="text" name="name" class="form-control" value="{{ $patientData[$roomNumber]->rs->name ?? 'N/A' }}" readonly>
+                      </div>
+                      <div class="col mb-3">
+                        <label class="form-label">Condition</label>
+                        <input type="text" name="condition" class="form-control" value="{{ $vitalSignsData[$roomNumber]->condition ?? 'N/A' }}" readonly>
+                      </div>
+                      <div class="col mb-3">
+                        <label class="form-label">Respiratory Rate</label>
+                        <input type="text" name="respiratory_rate" class="form-control" value="{{ $vitalSignsData[$roomNumber]->respiratory_rate ?? 'N/A' }}" readonly>
+                      </div>
+                      <div class="col mb-3">
+                        <label class="form-label">Temperature</label>
+                        <input type="text" name="temperature" class="form-control" value="{{ $vitalSignsData[$roomNumber]->temperature ?? 'N/A' }}" readonly>
+                      </div>
+                      <div class="col mb-3">
+                        <label class="form-label">Spo2</label>
+                        <input type="text" name="spo2" class="form-control" value="{{ $vitalSignsData[$roomNumber]->spo2 ?? 'N/A' }}" readonly>
+                      </div>
+                      <div class="col mb-3">
+                        <label class="form-label">Pulse Rate</label>
+                        <input type="text" name="pulse_rate" class="form-control" value="{{ $vitalSignsData[$roomNumber]->pulse_rate ?? 'N/A' }}" readonly>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-danger">Discharged</button>
+                    </div>
                   </div>
                 </div>
-          </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">102</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">103</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">104</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">105</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">106</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">107</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">108</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">109</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">110</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">111</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">112</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">113</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">114</p>
-                      <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Select
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-center" id="exampleModalLabel">BED 102</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="col mb-3">
-          <label class="form-label">Patient's Name</label>
-          <input type="text" name="name" class="form-control" placeholder="Name" value="" readonly>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">Respiratory</label>
-        <input type="text" name="respiratory" class="form-control" placeholder="Respiratory" value="" readonly>
-    </div>
-    <div class="col mb-3">
-      <label class="form-label">Blood Pressure</label>
-      <input type="text" name="bloodPressure" class="form-control" placeholder="Blood Pressure" value="" readonly>
-  </div>
-  <div class="col mb-3">
-    <label class="form-label">Temperature</label>
-    <input type="text" name="temperature" class="form-control" placeholder="Temperature" value="" readonly>
-</div>
-<div class="col mb-3">
-  <label class="form-label">Spo2</label>
-  <input type="text" name="spo2" class="form-control" placeholder="Spo2" value="" readonly>
-</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-danger">Discharged</button>
-      </div>
-    </div>
-  </div>
-</div>
-                    </div>
-                  </div>
-            </div>
-        </div>
+              </div>
+            @endfor
 
         
         
