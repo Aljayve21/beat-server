@@ -3,12 +3,21 @@
 @section('title', 'Dashboard - Beep-Server')
 
 @section('contents')
+<body>
+<div class="container-sm">
     <form method="post" action="/time-in">
         @csrf
-        <label>Name:</label>
-        <input type="text" name="name">
-        <button type="submit">Time In</button>
+        
+        
+          <label>Name:</label>
+          <div class="input-group mb-3">
+            <input type="text"id="name" class="form-control" name="name" aria-label="name" aria-describedby="basic-addon2" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Time In</button>
+            </div>
+          </div>
     </form>
+</div>
     
     <table class="table table-hover">
         <thead class="table-primary">

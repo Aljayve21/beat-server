@@ -24,7 +24,7 @@ class DashboardController extends Controller
         foreach ($patients as $patient) {
             $vitalSigns = VitalSign::where('patient_id', $patient->id)->get();
 
-            if($vitalSigns->isNotEmpty()) {
+            
                 foreach ($vitalSigns as $vitalSign) {
                     $roomData[] = [
                         'name' => $patient->name,
@@ -37,7 +37,7 @@ class DashboardController extends Controller
                     ];
             }
                    
-            }
+            
         }
 
         return view('dashboard', compact('roomData'));
