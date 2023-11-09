@@ -14,27 +14,27 @@ class DashboardController extends Controller
     
     public function showDashboard()
     {
-        $patientData = [];
-        $vitalSignsData = [];
+        $roomData = [];
 
         $patients = Patient::all();
-        $vitalSigns = VitalSign::all();
 
-    foreach ($patients as $patient) {
-        $roomNumber = $patient->room;
-        $patientData[$roomNumber] = $patient;
+        foreach ($patients as $patient) {
+            $roomNumber = $patient->room;
+
+            $vitalSigns = VitalSign::where('patient_id', $patient->id)->get();
+
+            $roomData[$roomNumber] = [
+                'patient' => $patient,
+                'vitalSigns' => $patient->vitalSigns,
+            ];
+        }
+
+        return view('dashboard', compact('roomData'));
     }
 
-    // Create an associative array for vital signs data based on patient ID
-    foreach ($vitalSigns as $vitalSign) {
-        $roomNumber = $vitalSign->patient->room;
-        $vitalSignsData[$roomNumber] = $vitalSign;
-    }
 
-    return view('dashboard')->with(compact('patientData', 'vitalSignsData'));
-    }
+
+    
+
+    
 }
-    
-
-    
-

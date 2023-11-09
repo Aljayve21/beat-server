@@ -128,27 +128,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-<script>
-    function displayPatientData(roomNumber, patientData, vitalSignsData) {
-     
-      var modal = document.getElementById('roomModal' + roomNumber);
-  
-     
-      var modalTitle = modal.querySelector('.modal-title');
-      modalTitle.textContent = 'Room ' + roomNumber;
-  
-     
-      modal.querySelector('#patientName').value = patientData.name;
-      
-  
-      
-      modal.querySelector('#respiratoryRate').value = vitalSignsData.respiratory_rate;
-      
-  
-      
-      $(modal).modal('show');
-    }
-  </script>
+
   
   
 
@@ -164,19 +144,9 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane {{ request()->is('tab1') ? 'active' : null }}" id="{{ url('tab1') }}" role="tabpanel">
           <div class="row">
-            {{-- <div class="col-lg-3 mt-3">
-                <div class="card" style="width: 10rem;">
-                    <div class="card-body">
-                      <h5 class="card-title text-center">BED</h5>
-                      <p class="card-text text-center">101</p>
-                      <a href="" class="btn btn-primary mx-4">Select</a>
-                    </div>
-                  </div>
-            </div> --}}
-
             
-
-            @for ($roomNumber = 1; $roomNumber <=14; $roomNumber++)
+           @if(isset($roomData))
+            @foreach($roomData as $roomNumber => $roomInfo)
             <div class="col-lg-3 mt-3">
               <div class="card" style="width: 10rem;">
                   <div class="card-body">
@@ -185,6 +155,7 @@
                       <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $roomNumber }}">
                         Select
                           </button>
+                         
 
             
             <div class="modal fade" id="exampleModal{{ $roomNumber }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $roomNumber }}" aria-hidden="true">
@@ -197,29 +168,35 @@
                     <div class="modal-body">
                       <div class="col mb-3">
                         <label class="form-label">Patient's Name</label>
-                        <input type="text" name="name" class="form-control" value="{{ $patientData[$roomNumber]->rs->name ?? 'N/A' }}" readonly>
+                        <input type="text" name="name" class="form-control" value="{{ $roomInfo['patient']->name ?? 'N/A' }}" readonly>
                       </div>
+                      
+
+                      @if(!is_null($roomInfo['vitalSigns']))
+                      @foreach ($roomInfo['vitalSigns'] as $vitalSign)
                       <div class="col mb-3">
                         <label class="form-label">Condition</label>
-                        <input type="text" name="condition" class="form-control" value="{{ $vitalSignsData[$roomNumber]->condition ?? 'N/A' }}" readonly>
+                        <input type="text" name="condition" class="form-control" value="{{ $vitalSign->condition ?? 'N/A' }}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Respiratory Rate</label>
-                        <input type="text" name="respiratory_rate" class="form-control" value="{{ $vitalSignsData[$roomNumber]->respiratory_rate ?? 'N/A' }}" readonly>
+                        <input type="text" name="respiratory_rate" class="form-control" value="{{ $vitalSign->respiratory_rate ?? 'N/A' }}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Temperature</label>
-                        <input type="text" name="temperature" class="form-control" value="{{ $vitalSignsData[$roomNumber]->temperature ?? 'N/A' }}" readonly>
+                        <input type="text" name="temperature" class="form-control" value="{{ $vitalSign->temperature ?? 'N/A' }}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Spo2</label>
-                        <input type="text" name="spo2" class="form-control" value="{{ $vitalSignsData[$roomNumber]->spo2 ?? 'N/A' }}" readonly>
+                        <input type="text" name="spo2" class="form-control" value="{{ $vitalSign->spo2 ?? 'N/A' }}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Pulse Rate</label>
-                        <input type="text" name="pulse_rate" class="form-control" value="{{ $vitalSignsData[$roomNumber]->pulse_rate ?? 'N/A' }}" readonly>
+                        <input type="text" name="pulse_rate" class="form-control" value="{{ $vitalSign->pulse_rate ?? 'N/A' }}" readonly>
                       </div>
                     </div>
+                    @endforeach
+                    @endif
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                       <button type="button" class="btn btn-danger">Discharged</button>
@@ -227,13 +204,19 @@
                   </div>
                 </div>
               </div>
-            @endfor
+              @endforeach
+              @endif
+            
+        
+      </div>
 
-        
-        
+      
       </div>
       <div class="tab-pane {{ request()->is('tab2') ? 'active' : null }}" id="{{ url('tab2') }}" role="tabpanel">
         ...
         </div>
+
       </div>
+</body>
+      
 @endsection

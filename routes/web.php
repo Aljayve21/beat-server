@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     });
 
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+
     Route::controller(PatientController::class)->prefix('patients')->group(function () {
         // Route::get('', 'index')->name('patients');
         Route::get('', 'index')->name('patients');
@@ -72,9 +74,6 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::controller(DashboardController::class)->prefix('dashboard')->group(function () {
-        Route::get('/dashboard','showDashboard')->name('dashboard');
-    });
     
     
     Route::get('/hospitalrecords', [PatientController::class, 'hospitalRecords'])->name('hospitalrecords');

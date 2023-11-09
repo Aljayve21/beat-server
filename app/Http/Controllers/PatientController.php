@@ -58,6 +58,13 @@ class PatientController extends Controller
         
     }
 
+    public function hospitalRecords()
+    {
+        $dischargedPatients = Patient::where('is_discharged', true)->get();
+
+        return view('hospitalrecords', compact('dischargedPatients'));
+    }
+
 
     
 }
