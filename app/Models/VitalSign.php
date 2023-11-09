@@ -10,13 +10,12 @@ class VitalSign extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id',  
-        'respiratory',
+        'heart_rate',  
+        'respiratory_rate',
         'blood_pressure',
         'temperature',
         'spo2',
         'pulse_rate',
-        'room',
     ];
 
     public function patient()

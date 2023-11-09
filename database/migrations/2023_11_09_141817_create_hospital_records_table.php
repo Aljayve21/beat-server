@@ -11,21 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vital_signs', function (Blueprint $table) {
+        Schema::create('hospital_records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('patient_id');
+            $table->date('date_of_admit');
+            $table->date('date_for_discharged');
             $table->string('heart_rate');
-            $table->decimal('respiratory_rate',5,2);
+            $table->string('respiratory');
             $table->string('blood_pressure');
-            $table->decimal('temperature',5,2);
-            $table->integer('spo2');
-            $table->integer('pulse_rate');
+            $table->string('temperature');
+            $table->string('spo2');
+            $table->date('date');
+            $table->time('time');
             $table->timestamps();
-        });
-
-
-        Schema::table('vital_signs', function (Blueprint $table) {
-            $table->foreign('patient_id')->references('id')->on('patients');
         });
     }
 
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vital_signs');
+        Schema::dropIfExists('hospital_records');
     }
 };

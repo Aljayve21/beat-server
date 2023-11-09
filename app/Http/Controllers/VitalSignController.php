@@ -7,15 +7,27 @@ use Illuminate\Http\Request;
 
 class VitalSignController extends Controller
 {
-    public function getPatientVitalSign($room)
+    public function index()
     {
-        
-        $vitalSigns = VitalSign::whereHas('patient', function ($query) use ($room) {
-            $query->where('room', $room);
-        })->first();
-    
+        $vitalSigns = VitalSign::all();
+        return view("vital-signs.index", compact("vitalSigns"));
+    }
 
-        return response()->json($vitalSigns);
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'heart_rate' => 'required',
+            'respiratory_rate' => 'required',
+            'blood_pressure' => 'required',
+            'temperature' => 'required',
+            'spo2' => 'required',
+            'pulse_rate' => 'required',
+        ]);
+
+        $vitalSign = new VitalSign($validatedData);
+        $vitalSign->save();
+
+        return redirect('/vital-signs')->with('success', 'Vital sign data added successfully.');
     }
 
     

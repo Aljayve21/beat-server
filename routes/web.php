@@ -46,9 +46,12 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    
+    // Route::get('dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
     Route::get('/tab1', function () {
         return view('dashboard');
     });
@@ -57,7 +60,7 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     });
 
-    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    
 
     Route::controller(PatientController::class)->prefix('patients')->group(function () {
         // Route::get('', 'index')->name('patients');
