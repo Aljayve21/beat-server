@@ -27,7 +27,21 @@ class VitalSignController extends Controller
         $vitalSign = new VitalSign($validatedData);
         $vitalSign->save();
 
-        return redirect('/vital-signs')->with('success', 'Vital sign data added successfully.');
+        return redirect()->route('patients.index')->with('success', 'Vital sign data added successfully.');
+    }
+
+    public function scanVitalSigns()
+    {
+        $patients = Patient::all();
+
+        return view('vital-signs.scan', compact('patients'));
+    }
+
+    public function scan()
+    {
+        $patient = Patient::where('is_discharged', 0)->get();
+
+        return view('vital-signs.scan', compact('patient'));
     }
 
     

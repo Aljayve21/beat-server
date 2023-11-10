@@ -65,6 +65,13 @@ class PatientController extends Controller
         return view('hospitalrecords', compact('dischargedPatients'));
     }
 
+    public function scan()
+    {
+        $patient = Patient::where('is_discharged', 0)->get();
+
+        return view('vital-signs.scan', compact('patient'));
+    }
+
 
     
 }

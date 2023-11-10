@@ -152,4 +152,36 @@ class PatientController extends Controller
 
         return view('patients.index', compact('patinets', 'roomNumber'));
     }
+
+    public function scanVitalSigns()
+    {
+        $patients = Patient::where('is_discharged', 0)->get();
+
+        return view('patients.scan-vital-signs', compact('patients'));
+    }
+
+    public function storeVitalSigns(Request $request)
+    {
+        $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'heart_rate' => 'required|numeric',
+            'respiratory_rate' => 'required|numeric',
+            'blood_pressure' => 'required|string',
+            'temperature' => 'required|numeric',
+            'spo2' => 'required|numeric',
+            'pulse_rate' => 'required|numeric',
+        ]);
+
+        $vitalSign = VitalSign::create([
+            'patient_id' => $request->input('patient_id'),
+            'heart_rate' => $request->input('heart_rate'),
+            'respiratory_rate' => $request->input('respiratory_rate'),
+            'blood_pressure' => $request->input('blood_pressure'),
+            'temperature' => $request->input('temperature'),
+            'spo2' => $request->input('spo2'),
+            'pulse_rate' => $request->input('pulse_rate'),
+        ]);
+
+        return redirect()->route('patients')->with('success','Vital Signs added Successfully. ');
+    }
 }

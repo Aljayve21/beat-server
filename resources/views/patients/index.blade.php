@@ -9,19 +9,16 @@
     <a href="{{ route('patients.create') }}" class="btn btn-primary">Add Info</a>
 </div> --}}
 <hr />
+<div class="d-flex align-items-center justify-content-between">
+    <h1 class="mb-0">Scan Vital Sign</h1>
+    <a href="" class="btn btn-primary">Scan Vital Sign</a>
+</div>
+<hr />
 @if(Session::has('success'))
 <div class="alert alert-success" roles="alert">
     {{ Session::get('success') }}
 </div>
 @endif
-
-@if($errors->has('room'))
-<div class="alert alert-danger">
-    {{ $errors->first('room') }}
-</div>
-@endif
-
-<div class="container">
  <table class="table table-hover">
     <thead class="table-primary">
         <tr>
@@ -59,6 +56,6 @@
         </tbody>
 </table> 
 
-    </div>
+    
 
 @endsection
