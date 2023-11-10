@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(PatientController::class)->prefix('patients')->group(function () {
         Route::get('', 'index')->name('patients');
         Route::get('scan-vital-signs', 'scanVitalSigns')->name('patients.scan');
+        Route::post('store-vital-signs','storeVitalSigns')->name('patients.store-vital-signs');
         Route::get('create', 'create')->name('patients.create');
         Route::post('store', 'store')->name('patients.store');
         // Route::get('show/{room}', 'room')->name('patients.show', 'views.dashboard');
@@ -74,17 +75,15 @@ Route::middleware('auth')->group(function () {
         Route::put('edit/{id}', 'update')->name('patients.update');
         Route::delete('destroy/{id}', 'destroy')->name('patients.destroy');
         Route::post('discharge/{id}', 'discharged')->name('patients.discharge');
-        Route::post('store-vital-signs', 'storeVitalSigns')->name('patients.store-vital-signs');
     });
 
 
     
     
     Route::get('/hospitalrecords', [PatientController::class, 'hospitalRecords'])->name('hospitalrecords');
-    // Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
     Route::get('patients/{room}', [PatientController::class, 'PatientsByRoom'])->name('PatientsByRoom');
     Route::get('vital-signs/{room}', [VitalSignController::class, 'VitalSignsByRoom'])->name('VitalSignsByRoom');
-    // Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    
 
     
     Route::get('/profile', [App\Http\Controllers\AuthController::class, 'profile'])->name('profile');

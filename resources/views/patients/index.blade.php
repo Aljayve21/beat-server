@@ -1,19 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Current Admit')
 
 @section('contents')
-
-{{-- <div class="d-flex align-items-center justify-content-between">
-    <h1 class="mb-0">Patient Information</h1>
-    <a href="{{ route('patients.create') }}" class="btn btn-primary">Add Info</a>
-</div> --}}
 <hr />
 <div class="d-flex align-items-center justify-content-between">
-    <h1 class="mb-0">Scan Vital Sign</h1>
-    <a href="" class="btn btn-primary">Scan Vital Sign</a>
+    <h1 class="mb-0">Current Admit List</h1>
+    <a href="{{ route('patients.scan') }}" class="btn btn-primary">Scan Vital Sign</a>
 </div>
 <hr />
+
 @if(Session::has('success'))
 <div class="alert alert-success" roles="alert">
     {{ Session::get('success') }}

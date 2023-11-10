@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Patient;
+use App\Models\VitalSign;
 
 class PatientController extends Controller
 {
@@ -15,8 +16,9 @@ class PatientController extends Controller
         $patient = Patient::orderBy('created_at', 'DESC')->get();
 
         return view('patients.index', compact('patient'));
-    }
 
+       
+    }
     public function create()
     {
         return view('patients.create');
@@ -65,11 +67,25 @@ class PatientController extends Controller
         return view('hospitalrecords', compact('dischargedPatients'));
     }
 
-    public function scan()
+    public function scanVitalSigns()
     {
-        $patient = Patient::where('is_discharged', 0)->get();
+        $patients = Patient::where('is_discharged', 0)->get();
 
-        return view('vital-signs.scan', compact('patient'));
+        return view('patients.scan-vital-signs', compact('patients'));
+    }
+
+    public function storeVitalSigns(Request $request)
+    {
+        $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+        ]);
+
+        $vitalSign = VitalSign::create([
+            'patient_id' => $request->input('patient_id'),
+        ]);
+
+        return redirect()->route('patients')->with('sucess','Vital Signs added Sucessfully');
+        
     }
 
 
