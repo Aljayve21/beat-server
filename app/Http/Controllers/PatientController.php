@@ -75,18 +75,40 @@ class PatientController extends Controller
     }
 
     public function storeVitalSigns(Request $request)
-    {
-        $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-        ]);
+{
+    
+    $request->validate([
+        'patient_id' => 'required|exists:patients,id',
+        'heart_rate' => 'required|numeric',
+        'respiratory_rate' => 'required|numeric',
+        'blood_pressure' => 'required|string',
+        'temperature' => 'required|numeric',
+        'spo2' => 'required|numeric',
+        'pulse_rate' => 'required|numeric',
+    ]);
 
-        $vitalSign = VitalSign::create([
-            'patient_id' => $request->input('patient_id'),
-        ]);
+    $patient = Patient::findOrFail($request->input('patient_id'));
 
-        return redirect()->route('patients')->with('sucess','Vital Signs added Sucessfully');
+    $vitalSign = VitalSign::create([
+        'patient_id' => $patient->id,
+        'heart_rate' => $request->input('heart_rate'),
+        'respiratory_rate' => $request->input('respiratory_rate'),
+        'blood_pressure' => $request->input('blood_pressure'),
+        'temperature' => $request->input('temperature'),
+        'spo2' => $request->input('spo2'),
+        'pulse_rate' => $request->input('pulse_rate'),
+    ]);
+
+    
+    $vitalSigns = VitalSign::where('patient_id', $patient->id)->get();
+
+    return view('patients.index', compact('patient', 'vitalSigns'));
+
+         
         
     }
+
+    
 
 
     

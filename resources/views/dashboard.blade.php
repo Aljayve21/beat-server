@@ -133,6 +133,7 @@
   
 
 <body>
+  
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <a class="nav-link {{ request()->is('tab1') ? 'active' : null }}" href="{{ url('tab1') }}" role="tab" >1st Floor</a>
@@ -142,57 +143,57 @@
         </li>
       </ul>
       <div class="tab-content" id="myTabContent">
+        
         <div class="tab-pane {{ request()->is('tab1') ? 'active' : null }}" id="{{ url('tab1') }}" role="tabpanel">
           <div class="row">
-           
-            @if(isset($roomData))
-            @foreach ($roomData as $data)
+
+            @foreach ($roomData as $roomNumber => $roomInfo)
             <div class="col-lg-3 mt-3">
               <div class="card" style="width: 10rem;">
                   <div class="card-body">
-                    <h5 class="card-title text-center">BED {{ $data['room'] }}</h5>
+                    <h5 class="card-title text-center">BED {{ $roomNumber }}</h5>
                     <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $data['room'] }}">
+                      <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $roomNumber }}">
                         Select
                           </button>
                          
 
-            
-            <div class="modal fade" id="exampleModal{{ $data['room'] }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $data['room'] }}" aria-hidden="true">
+                          
+            <div class="modal fade" id="exampleModal{{ $roomNumber }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $roomNumber }}" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title text-center" id="exampleModalLabel{{ $data['room'] }}">Room {{ $data['room'] }}</h5>
+                      <h5 class="modal-title text-center" id="exampleModalLabel{{ $roomNumber }}">Room {{ $roomData }}</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                       <div class="col mb-3">
                         <label class="form-label">Patient's Name</label>
-                        <input type="text" name="name" class="form-control" value="{{ $data['name'] }}" readonly>
+                        <input type="text" name="name" class="form-control" value="{{ $roomInfo['name'] }}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Room</label>
-                        <input type="text" name="room" class="form-control" value="{{ $data['room'] }}" readonly>
+                        <input type="text" name="room" class="form-control" value="{{ $roomInfo['room'] }}" readonly>
                       </div>
                       <div class="col mb-3">
-                        <label class="form-label">Condition</label>
-                        <input type="text" name="condition" class="form-control" value="" readonly>
+                        <label class="form-label">heart_rate</label>
+                        <input type="text" name="heart_rate" class="form-control" value="{{ $roomInfo['heart_rate'] }}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Respiratory Rate</label>
-                        <input type="text" name="respiratory_rate" class="form-control" value="" readonly>
+                        <input type="text" name="respiratory_rate" class="form-control" value="{{ $roomInfo['respiratory_rate'] }}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Temperature</label>
-                        <input type="text" name="temperature" class="form-control" value="" readonly>
+                        <input type="text" name="temperature" class="form-control" value="{{ $roomInfo['temperature'] }}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Spo2</label>
-                        <input type="text" name="spo2" class="form-control" value="" readonly>
+                        <input type="text" name="spo2" class="form-control" value="{{ $roomInfo['spo2']}}" readonly>
                       </div>
                       <div class="col mb-3">
                         <label class="form-label">Pulse Rate</label>
-                        <input type="text" name="pulse_rate" class="form-control" value="" readonly>
+                        <input type="text" name="pulse_rate" class="form-control" value="{{ $roomInfo['pulse_rate']}}" readonly>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -203,9 +204,10 @@
                 </div>
               </div>
               @endforeach
-              @else
-              <p>No available Room for now</p>
-              @endif
+           
+            
+           
+              
       </div>
 
       

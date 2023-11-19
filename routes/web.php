@@ -47,18 +47,21 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
     
-    // Route::get('dashboard', function () {
-    //     return view('dashboard');
-    // })->name('dashboard');
-    Route::get('/tab1', function () {
+    
+    Route::get('dashboard', function () {
         return view('dashboard');
+    })->name('dashboard');
+    Route::get('/tab1', function () {
+        $roomData = [];
+        return view('dashboard', compact('roomData'));
     });
     
     Route::get('/tab2', function () {
-        return view('dashboard');
+        $roomData = [];
+        return view('dashboard', compact('roomData'));
     });
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
     
 

@@ -4,7 +4,17 @@
 
     <h1>Scan Vital Sign</h1>
 
-    <form action="{{ route('patients.store-vital-signs') }}" method="POST">
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @if(session('patients'))
+        <p>Patient Name: {{ session('patient')->name }}</p>
+        <p>Room: {{ session('patient')->room }}</p>
+    @endif
+@endif
+
+    <form action="{{ route('patients.store') }}" method="POST">
         @csrf
 
         <div class="form-group">

@@ -9,8 +9,11 @@ class VitalSign extends Model
 {
     use HasFactory;
 
+    protected $guarded = []; 
+
     protected $fillable = [
-        'heart_rate',  
+        'patient_id',
+        'heart_rate',
         'respiratory_rate',
         'blood_pressure',
         'temperature',
@@ -20,6 +23,6 @@ class VitalSign extends Model
 
     public function patient()
     {
-        return $this->belongsTo('App\Patient', 'patient_id');
+        return $this->belongsTo('App\Models\Patient', 'patient_id');
     }
 }

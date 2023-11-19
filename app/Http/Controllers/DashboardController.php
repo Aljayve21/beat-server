@@ -16,33 +16,32 @@ class DashboardController extends Controller
     
     public function showDashboard()
     {
+        
         $roomData = [];
 
         $patients = Patient::where('is_discharged', 0)->get();
 
-
         foreach ($patients as $patient) {
+            
             $vitalSigns = VitalSign::where('patient_id', $patient->id)->get();
 
-            
-                foreach ($vitalSigns as $vitalSign) {
-                    $roomData[] = [
-                        'name' => $patient->name,
-                        'room' => $patient->room,
-                        'respiratory_rate' => $vitalSign->respiratory_rate,
-                        'blood_pressure' => $vitalSign->blood_pressure,
-                        'temperature' => $vitalSign->temperature,
-                        'spo2' => $vitalSign->spo2,
-                        'pulse_rate' => $vitalSign->pulse_rate,
-                    ];
+            if($vitalSigns->isNotEmpty()) {
+                foreach($vitalSigns as $vitalSign) {
+                $roomData [] = [
+                'name' => $patient->name,
+                'room' => $patient->room,
+                'heart_rate' => $vitalSign->last()->heart_rate,
+                'respiratory_rate' => $vitalSign->last()->respiratory_rate,
+                'blood_pressure' => $vitalSign->last()->blood_pressure,
+                'temperature' => $vitalSign->last()->temperature,
+                'spo2' => $vitalSign->last()->spo2,
+                'pulse_rate' => $vitalSign->last()->pulse_rate,
+                ];
             }
-                   
-            
-        }
+        }   
+     }
 
-        return view('dashboard', compact('roomData'));
-
-
+     return view('dashboard', compact('roomData'));
 
     }
 
