@@ -14,7 +14,7 @@
     @endif
 @endif
 
-    <form action="{{ route('patients.store') }}" method="POST">
+    <form action="{{ route('patients.store-vital-signs') }}" method="POST">
         @csrf
 
         <div class="form-group">
