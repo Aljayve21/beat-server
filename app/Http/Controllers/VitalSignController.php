@@ -17,7 +17,8 @@ class VitalSignController extends Controller
     public function store(Request $request)
     {
         try {
-        $request->validate([
+            $requestData = $request->all();
+        $validationRules = [
             'patient_id' => 'required|exists:patients,id',
             'heart_rate' => 'required|numeric',
             'respiratory_rate' => 'required|numeric',
@@ -26,7 +27,10 @@ class VitalSignController extends Controller
             'spo2' => 'required|numeric',
             'pulse_rate' => 'required|numeric',
             
-        ]);
+        ];
+
+        $request->validate($validationRules);
+
         $vitalSign = new VitalSign([
             'patient_id' => $request->input('patient_id'),
             'heart_rate' => $request->input('heart_rate'),
@@ -42,16 +46,23 @@ class VitalSignController extends Controller
         
        
         
+        // if ($request->expectsJson()) {
+        //     return response()->json(['message' => 'Vital Sign successfully' ]);
+        // } else {
+        //     return redirect()->route('patients')->with('success', 'Vital Sign added Sucessully');
+        // } catch (\Exception $e) {
+        //     Log::error($e);
 
+        //     if($request->expectsJson()) {
+        //         return response()->json(['error'=> 'Error adding vital Sign.'], 500);
+        //     }else {
+        //         return redirect()->route('patients')->with('error','Error adding vital sign');
+        //     }
         
-        return redirect()->route('patients')->with('success', 'Vital sign added successfully.');
-    } catch (\Exception $e) {
-        Log::error($e);
-
-        return redirect()->route('patient')->with('error', 'Error adding vital Sign');
+      
+        // }
+    
     }
-
-}
 
     public function scanVitalSigns()
     {
@@ -76,3 +87,5 @@ class VitalSignController extends Controller
 
     
 }
+
+    

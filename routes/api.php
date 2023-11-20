@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\VitalSignController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('api/patients/{room}', [PatientController::class,'getPatientsByRoom'])->name('getPatientsByRoom');
+
+Route::post('vital-signs', [VitalSignController::class,'store']);
