@@ -19,7 +19,7 @@ class VitalSignController extends Controller
         try {
             $requestData = $request->all();
 
-            // Validate the request based on the input source (web or API)
+            
             $validationRules = [
                 'patient_id' => 'required|exists:patients,id',
                 'heart_rate' => 'required|numeric',

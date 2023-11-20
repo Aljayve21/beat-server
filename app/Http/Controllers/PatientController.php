@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\VitalSign;
+use Illuminate\Support\Facades\Log;
 
 class PatientController extends Controller
 {
@@ -75,8 +76,7 @@ class PatientController extends Controller
     }
 
     public function storeVitalSigns(Request $request)
-{
-    
+    {
     $request->validate([
         'patient_id' => 'required|exists:patients,id',
         'heart_rate' => 'required|numeric',
@@ -87,25 +87,28 @@ class PatientController extends Controller
         'pulse_rate' => 'required|numeric',
     ]);
 
-    $patient = Patient::findOrFail($request->input('patient_id'));
+    try {
+        $patient = Patient::findOrFail($request->input('patient_id'));
 
-    $vitalSign = VitalSign::create([
-        'patient_id' => $patient->id,
-        'heart_rate' => $request->input('heart_rate'),
-        'respiratory_rate' => $request->input('respiratory_rate'),
-        'blood_pressure' => $request->input('blood_pressure'),
-        'temperature' => $request->input('temperature'),
-        'spo2' => $request->input('spo2'),
-        'pulse_rate' => $request->input('pulse_rate'),
-    ]);
+        $vitalSign = VitalSign::create([
+            'patient_id' => $patient->id,
+            'heart_rate' => $request->input('heart_rate'),
+            'respiratory_rate' => $request->input('respiratory_rate'),
+            'blood_pressure' => $request->input('blood_pressure'),
+            'temperature' => $request->input('temperature'),
+            'spo2' => $request->input('spo2'),
+            'pulse_rate' => $request->input('pulse_rate'),
+        ]);
 
-    
-    $vitalSigns = VitalSign::where('patient_id', $patient->id)->get();
+        // Fetch the updated vital signs for the patient
+        $vitalSigns = VitalSign::where('patient_id', $patient->id)->get();
 
-    return view('patients.index', compact('patient', 'vitalSigns'));
+        return redirect()->route('patients.scan-vital-signs')->with('success', 'Vital signs added successfully.')->with(compact('vitalSigns', 'patient'));
+    } catch (\Exception $e) {
+        Log::error($e);
 
-         
-        
+        return redirect()->route('patients.scan-vital-signs')->with('error', 'Error adding vital sign.');
+    }
     }
 
     
