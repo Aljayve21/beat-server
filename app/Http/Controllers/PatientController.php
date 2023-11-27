@@ -76,7 +76,7 @@ class PatientController extends Controller
     }
 
     public function storeVitalSigns(Request $request)
-    {
+{
     $request->validate([
         'patient_id' => 'required|exists:patients,id',
         'heart_rate' => 'required|numeric',
@@ -109,7 +109,8 @@ class PatientController extends Controller
 
         return redirect()->route('patients.scan-vital-signs')->with('error', 'Error adding vital sign.');
     }
-    }
+}
+
 
     
 

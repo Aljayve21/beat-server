@@ -8,6 +8,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\TimeLogController;
 use App\Http\Controllers\VitalSignController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,14 +82,13 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    
+    Route::post('/api/insert-vital-signs', [ApiController::class, 'insertVitalSigns']);
     
     Route::get('/hospitalrecords', [PatientController::class, 'hospitalRecords'])->name('hospitalrecords');
     Route::get('patients/{room}', [PatientController::class, 'PatientsByRoom'])->name('PatientsByRoom');
     Route::get('vital-signs/{room}', [VitalSignController::class, 'VitalSignsByRoom'])->name('VitalSignsByRoom');
     
-
-    
+    //Route::post('/insert-vital-signs', [ApiController::class, 'insertVitalSigns']);    
     Route::get('/profile', [App\Http\Controllers\AuthController::class, 'profile'])->name('profile');
     Route::get('/attendance', [App\Http\Controllers\TimeLogController::class, 'attendance'])->name('attendance');
 });
