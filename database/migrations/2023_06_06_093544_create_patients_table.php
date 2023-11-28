@@ -20,9 +20,13 @@ return new class extends Migration
             $table->string('Address');
             $table->string('Contact');
             $table->string('Guardian');
-            $table->integer('room');
+            $table->unsignedBigInteger('room');
             $table->boolean('is_discharged')->default(false);
             $table->timestamps();
+        });
+
+        Schema::table('patients', function (Blueprint $table) {
+            $table->foreign('room')->references('id')->on('rooms');
         });
     }
 

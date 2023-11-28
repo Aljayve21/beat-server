@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vital_signs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('room');
             $table->string('heart_rate');
             $table->decimal('respiratory_rate',5,2);
             $table->string('blood_pressure');
@@ -25,7 +25,7 @@ return new class extends Migration
 
 
         Schema::table('vital_signs', function (Blueprint $table) {
-            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->foreign('room')->references('id')->on('rooms');
         });
     }
 
