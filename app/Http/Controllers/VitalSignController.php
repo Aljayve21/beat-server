@@ -46,6 +46,8 @@ class VitalSignController extends Controller
             
             $vitalSign->save();
 
+            $vitalSigns = VitalSign::where('room', $vitalSign->patient->room)->get();
+
             
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Vital sign added successfully.']);

@@ -12,37 +12,30 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\VitalSignController;
 class DashboardController extends Controller
 {
-    
-    
     public function showDashboard()
     {
-        
-        $roomData = [];
+    $patientData = [];
 
-        $patients = Patient::where('is_discharged', 0)->get();
+    $patients = Patient::where('is_discharged', 0)->get();
 
-        foreach ($patients as $patient) {
-            
-            $vitalSigns = VitalSign::where('patient_id', $patient->id)->get();
+    foreach ($patients as $patient) {
+        $latestVitalSign = VitalSign::where('room', $patient->room)->latest()->first();
 
-            if($vitalSigns->isNotEmpty()) {
-                foreach($vitalSigns as $vitalSign) {
-                $roomData [] = [
+        if ($latestVitalSign) {
+            $patientData[] = [
                 'name' => $patient->name,
                 'room' => $patient->room,
-                'heart_rate' => $vitalSign->last()->heart_rate,
-                'respiratory_rate' => $vitalSign->last()->respiratory_rate,
-                'blood_pressure' => $vitalSign->last()->blood_pressure,
-                'temperature' => $vitalSign->last()->temperature,
-                'spo2' => $vitalSign->last()->spo2,
-                'pulse_rate' => $vitalSign->last()->pulse_rate,
-                ];
-            }
-        }   
-     }
+                'heart_rate' => $latestVitalSign->heart_rate,
+                'respiratory_rate' => $latestVitalSign->respiratory_rate,
+                'blood_pressure' => $latestVitalSign->blood_pressure,
+                'temperature' => $latestVitalSign->temperature,
+                'spo2' => $latestVitalSign->spo2,
+                'pulse_rate' => $latestVitalSign->pulse_rate,
+            ];
+        }
+    }
 
-     return view('dashboard', compact('roomData'));
-
+    return view('dashboard', compact('patientData')); // Update this line
     }
 
     

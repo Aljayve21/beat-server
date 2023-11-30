@@ -9,7 +9,7 @@ class VitalSign extends Model
 {
     use HasFactory;
 
-    protected $guarded = []; 
+    protected $guarded = [];
 
     protected $fillable = [
         'patient_id',
@@ -23,6 +23,12 @@ class VitalSign extends Model
 
     public function patient()
     {
-        return $this->belongsTo('App\Models\Patient', 'patient_id');
+        return $this->belongsTo(Patient::class, 'room', 'room');
+    }
+
+    public static function latestVitalSigns($patientRoom)
+    {
+        return static::where('room', $patientRoom)->latest()->first();
     }
 }
+

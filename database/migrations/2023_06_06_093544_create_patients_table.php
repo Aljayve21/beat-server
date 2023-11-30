@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patients', function (Blueprint $table) {
+        Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('age');
             $table->string('gender');
-            $table->string('Birthday');
+            $table->date('Birthday');
             $table->string('Address');
             $table->string('Contact');
             $table->string('Guardian');
             $table->unsignedBigInteger('room');
             $table->boolean('is_discharged')->default(false);
             $table->timestamps();
+
+            $table->foreign('room')->references('id')->on('rooms');
         });
 
         Schema::table('patients', function (Blueprint $table) {
@@ -35,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+        Schema::dropIfExists('rooms');
     }
 };

@@ -23,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('api/patients/{room}', [PatientController::class,'getPatientsByRoom'])->name('getPatientsByRoom');
 
 Route::post('vital-signs', [VitalSignController::class,'store']);
+Route::get('/patients/scan-vital-signs', [PatientController::class, 'scanVitalSigns'])->name('patients.scan-vital-signs');

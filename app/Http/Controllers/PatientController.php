@@ -26,39 +26,52 @@ class PatientController extends Controller
     }
     
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'age' => 'required|integer',
-            'gender'=> 'required|string',
-            'Birthday'=> 'required|date',
-            'Address'=> 'required|string',
-            'Contact'=> 'required|string',
-            'Guardian'=> 'required|string',
-            'room'=> 'required|integer',
-            'is_discharged'=> 'boolean',
-           ]);
+{
+    $data = $request->validate([
+        'name' => 'required|string',
+        'age' => 'required|integer',
+        'gender'=> 'required|string',
+        'Birthday'=> 'required|date',
+        'Address'=> 'required|string',
+        'Contact'=> 'required|string',
+        'Guardian'=> 'required|string',
+        'room'=> 'required|integer',
+        'is_discharged'=> 'boolean',
+    ]);
+
     
-           $existingPatientInRoom = Patient::where('room', $data['room'])->first();
-    
-           if( $existingPatientInRoom )
-           {
-            return redirect()->back()->withErrors(['room' => 'Room '. $data['room'] . ' is already occupied']);
-           }
-    
-           $data['is_discharged'] = $request->has('is_discharged');
-    
-    
-           $patient = Patient::create($data);
-    
-           return redirect()->route('patients', $patient->id)->with('success','Patient added Successfully');
+    $existingPatientInRoom = Patient::where('room', $data['room'])->first();
+
+    if ($existingPatientInRoom) {
+        return redirect()->back()->withErrors(['room' => 'Room ' . $data['room'] . ' is already occupied']);
     }
+
+    $data['is_discharged'] = $request->has('is_discharged');
+
+    try {
+        
+        $patient = Patient::create($data);
+
+        
+        if (!$patient) {
+            throw new \Exception('Failed to create patient');
+        }
+    } catch (\Exception $e) {
+        
+        dd($e->getMessage());
+    }
+
+    return redirect()->route('patients.index', $patient->id)->with('success', 'Patient added successfully');
+}
+
+
 
     public function show(string $id)
     {
         $patient = Patient::findOrFail($id);
-        return view('patients.show', compact('patient'));
-        
+        $vitalSigns = $patient->vitalSigns; 
+
+        return view('patients.show', compact('patient', 'vitalSigns'));
     }
 
     public function hospitalRecords()
@@ -66,6 +79,11 @@ class PatientController extends Controller
         $dischargedPatients = Patient::where('is_discharged', true)->get();
 
         return view('hospitalrecords', compact('dischargedPatients'));
+    }
+
+    public function vitalSigns()
+    {
+        return $this->hasMany(VitalSign::class, 'room', 'room');
     }
 
     public function scanVitalSigns()
@@ -76,7 +94,7 @@ class PatientController extends Controller
     }
 
     public function storeVitalSigns(Request $request)
-{
+    {
     $request->validate([
         'patient_id' => 'required|exists:patients,id',
         'heart_rate' => 'required|numeric',
@@ -101,7 +119,7 @@ class PatientController extends Controller
         ]);
 
         // Fetch the updated vital signs for the patient
-        $vitalSigns = VitalSign::where('patient_id', $patient->id)->get();
+        $vitalSigns = VitalSign::where('room', $patient->room)->get();
 
         return redirect()->route('patients.scan-vital-signs')->with('success', 'Vital signs added successfully.')->with(compact('vitalSigns', 'patient'));
     } catch (\Exception $e) {
@@ -109,7 +127,21 @@ class PatientController extends Controller
 
         return redirect()->route('patients.scan-vital-signs')->with('error', 'Error adding vital sign.');
     }
-}
+    }
+
+    public function getRooms()
+    {
+        $rooms = [];
+        for ($i = 1; $i <= 14; $i++) {
+            $patientData = Patient::where('room_number', $i)->first();
+            $rooms[] = [
+                'room_number' => $i,
+                'patient_data' => $patientData,
+            ];
+        }
+
+        return view('dashboard', compact('rooms'));
+    }
 
 
     

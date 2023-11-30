@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('vital_signs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('room');
             $table->string('heart_rate');
             $table->decimal('respiratory_rate',5,2);
             $table->string('blood_pressure');
@@ -21,11 +21,9 @@ return new class extends Migration
             $table->integer('spo2');
             $table->integer('pulse_rate');
             $table->timestamps();
-        });
 
-
-        Schema::table('vital_signs', function (Blueprint $table) {
-            $table->foreign('patient_id')->references('id')->on('patients');
+            //$table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade'); // Assuming a cascading delete is desired
+            $table->foreign('room')->references('id')->on('rooms');
         });
     }
 
@@ -34,6 +32,15 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vital_signs');
+    Schema::table('vital_signs', function (Blueprint $table) {
+        $table->dropForeign(['patient_id']);
+        $table->dropForeign(['room']);
+    });
+
+    Schema::dropIfExists('vital_signs');
     }
+
+
+
+
 };

@@ -9,6 +9,7 @@ use App\Http\Controllers\TimeLogController;
 use App\Http\Controllers\VitalSignController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\HospitalRecordController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -50,21 +51,32 @@ Route::middleware('auth')->group(function () {
 
     
     
-    Route::get('dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    Route::get('/tab1', function () {
-        $roomData = [];
-        return view('dashboard', compact('roomData'));
-    });
+    Route::get('dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+
+Route::prefix('/tab1')->group(function () {
+    // The new route for creating hospital records
+    Route::get('/', [DashboardController::class, 'showDashboard'])->name('tab1');
     
-    Route::get('/tab2', function () {
-        $roomData = [];
-        return view('dashboard', compact('roomData'));
-    });
+    // Other routes related to tab1
+    // ...
+
+    // Route for getting room data
+    Route::get('/get-rooms', [PatientController::class, 'getRooms'])->name('tab1.getRooms');
+    
+});
+
+// Route::get('/tab2', function () {
+//     $roomData = [];
+//     return view('dashboard', compact('roomData'));
+// });
+
+Route::get('/tab2', [DashboardController::class, 'showDashboard'])->name('tab2');
+
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
-    
+    Route::post('/create-hospital-record', [HospitalRecordController::class, 'createHospitalRecord'])
+            ->name('create.hospital.record');
+
 
     Route::controller(PatientController::class)->prefix('patients')->group(function () {
         Route::get('', 'index')->name('patients');
@@ -73,7 +85,7 @@ Route::middleware('auth')->group(function () {
         Route::get('create', 'create')->name('patients.create');
         Route::post('store', 'store')->name('patients.store');
         // Route::get('show/{room}', 'room')->name('patients.show', 'views.dashboard');
-        Route::get('show/{room}', 'show')->name('patients.show');
+        Route::get('show/{id}', 'show')->name('patients.show');
         // Route::get('showCurrentAdmit/{room}', 'showCurrentAdmit')->name('patients.show');
         Route::get('edit/{id}', 'edit')->name('patients.edit');
         Route::put('edit/{id}', 'update')->name('patients.update');
