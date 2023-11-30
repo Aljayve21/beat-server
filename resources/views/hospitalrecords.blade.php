@@ -1,41 +1,20 @@
+<!-- resources/views/hospitalrecords.blade.php -->
+
 @extends('layouts.app')
 
+@section('title', 'Hospital Records')
+
 @section('contents')
+    <h1>Hospital Records</h1>
 
-
-
-    <table class="table table-hover">
-    <thead class="table-primary">
-            <th>#</th>
-            <th>Name</th>
-            <th>Heart Rate</th>
-            <th>Respiratory</th>
-            <th>Blood Pressure</th>
-            <th>Temperature</th>
-            <th>Spo2</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Action</th>
-        </thead>
-        <tbody>
-                <td class="align-middle">#</td>
-                <td class="align-middle">name</td>
-                <td class="align-middle">heart_rate</td>
-                <td class="align-middle">respiratory_rate</td>
-                <td class="align-middle">blood_pressure</td>
-                <td class="align-middle">temperature</td>
-                <td class="align-middle">spo2</td>
-                <td class="align-middle">date</td>
-                <td class="align-middle">time</td>
-                <td class="align-middle">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="" type="button" class="btn btn-secondary">Detail</a>
-                    </div>
-                   </td>
-            </thead>
-        </tbody>
-    </table>
-
-
-
+    @if(count($hospitalRecords) > 0)
+        <ul>
+            @foreach($hospitalRecords as $record)
+                <li>{{ $record->name }} - {{ $record->room }} - {{ $record->other_field }}</li>
+                <!-- Adjust the fields based on your actual HospitalRecord model -->
+            @endforeach
+        </ul>
+    @else
+        <p>No hospital records found.</p>
+    @endif
 @endsection

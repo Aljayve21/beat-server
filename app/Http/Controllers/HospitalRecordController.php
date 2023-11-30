@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\HospitalRecord;
+use App\Models\Patient;
 
 class HospitalRecordController extends Controller
 {
     public function createHospitalRecord(Request $request)
     {
         $data = $request->all();
+
+        $roomNumber = $data['room_number'];
+
+        $patient = Patient::where('room_number', $roomNumber)->first();
+
+        if(!$patient){
+            return redirect()->route('dashboard')->with('error', 'Patient not found for room number ' . $roomNumber);
+        }
 
         $hospitalRecord = new HospitalRecord([
             'date_of_admit' => $data['date_of_admit'],
@@ -29,4 +38,11 @@ class HospitalRecordController extends Controller
 
 
     }
+
+    // HospitalRecordController.php
+
+
+    
+
+
 }

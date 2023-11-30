@@ -21,6 +21,13 @@ class Patient extends Model
         'room',
         'is_discharged'
     ];
+    
+
+
+    public function vitalSigns() 
+    {
+        return $this->hasMany(VitalSign::class, 'room', 'room');
+    }
 
     
 }
