@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('available')->default(true);
+            $table->boolean('emergency_status')->default(false);
             $table->timestamps();
         });
     }
