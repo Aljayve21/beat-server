@@ -14,21 +14,9 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('age');
-            $table->string('gender');
-            $table->date('Birthday');
-            $table->string('Address');
-            $table->string('Contact');
-            $table->string('Guardian');
-            $table->unsignedBigInteger('room');
-            $table->boolean('is_discharged')->default(false);
+            $table->boolean('available')->default(true);
+            $table->boolean('emergency_status')->default(false);
             $table->timestamps();
-
-            $table->foreign('room')->references('id')->on('rooms');
-        });
-
-        Schema::table('patients', function (Blueprint $table) {
-            $table->foreign('room')->references('id')->on('rooms');
         });
     }
 
