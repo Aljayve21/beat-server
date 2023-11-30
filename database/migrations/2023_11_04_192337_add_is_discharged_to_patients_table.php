@@ -16,13 +16,4 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('patients', function (Blueprint $table) {
-            $table->boolean('is_discharged')->default(false);
-        });
-    }
 };
