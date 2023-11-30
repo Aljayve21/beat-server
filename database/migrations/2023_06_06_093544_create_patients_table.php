@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('age');
@@ -23,8 +23,6 @@ return new class extends Migration
             $table->unsignedBigInteger('room');
             $table->boolean('is_discharged')->default(false);
             $table->timestamps();
-
-            $table->foreign('room')->references('id')->on('rooms');
         });
 
         Schema::table('patients', function (Blueprint $table) {
