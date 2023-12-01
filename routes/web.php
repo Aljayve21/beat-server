@@ -10,6 +10,7 @@ use App\Http\Controllers\VitalSignController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\HospitalRecordController; 
+use App\Http\Controllers\RoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,8 +94,13 @@ Route::get('/tab2', [DashboardController::class, 'showDashboard'])->name('tab2')
         Route::post('discharge/{id}', 'discharged')->name('patients.discharge');
     });
 
+    Route::get('/patients', [PatientController::class, 'index'])->name('patients');
 
+    Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
     Route::post('/api/insert-vital-signs', [ApiController::class, 'insertVitalSigns']);
+
+    Route::get('/rooms/get-patient-details', [RoomController::class, 'getPatientDetails'])->name('rooms.getPatientDetails');
+
     
     Route::get('/hospitalrecords', [PatientController::class, 'hospitalRecords'])->name('hospitalrecords');
     Route::get('patients/{room}', [PatientController::class, 'PatientsByRoom'])->name('PatientsByRoom');

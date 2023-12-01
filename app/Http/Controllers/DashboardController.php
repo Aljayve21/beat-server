@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\VitalSignController;
+use App\Models\Room;
 class DashboardController extends Controller
 {
     public function showDashboard()
@@ -19,7 +20,7 @@ class DashboardController extends Controller
     $patients = Patient::where('is_discharged', 0)->get();
 
     foreach ($patients as $patient) {
-        $latestVitalSign = VitalSign::where('room', $patient->room)->latest()->first();
+        $latestVitalSign = VitalSign::where('patient_id', $patient->id)->latest()->first();
 
         if ($latestVitalSign) {
             $patientData[] = [
@@ -35,7 +36,9 @@ class DashboardController extends Controller
         }
     }
 
-    return view('dashboard', compact('patientData')); // Update this line
+    $rooms = Room::all();
+
+    return view('dashboard', compact('rooms')); 
     }
 
     

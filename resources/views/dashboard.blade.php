@@ -132,18 +132,20 @@
     <div class="tab-pane {{ request()->is('tab1') ? 'active' : null }}" id="{{ url('tab1') }}" role="tabpanel">
       <div class="row">
 
-        @foreach ($patientData as $patient )
+        
         <div class="col-lg-3 mt-3">
           <div class="card" style="width: 10rem;">
               <div class="card-body">
                 <h5 class="card-title text-center">BED</h5>
                 <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $patient['room-number'] }}">
-                    Select
-                      </button>
+                @foreach ($rooms as $room)
+                <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal" data-room-id="{{ $room->id }}">
+                    Room {{ $room->id }}
+                </button>
+            @endforeach
                   
 
-                      <div class="modal fade" id="exampleModal{{ $patient['room_number'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -153,16 +155,16 @@
                             <div class="modal-body">
                               <div class="col mb-3">
                                 <label class="form-label">Patient's Name</label>
-                                <input type="text" name="name" class="form-control" value="{{ optional($room['patient_data']) }}" readonly>
+                                <input type="text" name="name" class="form-control" value="" readonly>
                               </div>
                               <div class="col mb-3">
                                 <label class="form-label">Room</label>
-                                <input type="text" name="room" class="form-control" value="{{ optional($room['room_number'] )}}" readonly>
+                                <input type="text" name="room" class="form-control" value="" readonly>
                               </div>
-                              <div class="col mb-3">
+                              {{-- <div class="col mb-3">
                                 <label class="form-label">heart_rate</label>
                                 <input type="text" name="heart_rate" class="form-control" value="" readonly>
-                              </div>
+                              </div> --}}
                               <div class="col mb-3">
                                 <label class="form-label">Respiratory Rate</label>
                                 <input type="text" name="respiratory_rate" class="form-control" value="" readonly>
@@ -171,10 +173,10 @@
                                 <label class="form-label">Temperature</label>
                                 <input type="text" name="temperature" class="form-control" value="" readonly>
                               </div>
-                              <div class="col mb-3">
+                              {{-- <div class="col mb-3">
                                 <label class="form-label">Spo2</label>
                                 <input type="text" name="spo2" class="form-control" value="" readonly>
-                              </div>
+                              </div> --}}
                               <div class="col mb-3">
                                 <label class="form-label">Pulse Rate</label>
                                 <input type="text" name="Pulse Rate" class="form-control" value="" readonly>
@@ -193,7 +195,7 @@
           </div>
         </div>
             
-        @endforeach
+       
       </div>
     </div>
 

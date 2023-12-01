@@ -23,11 +23,12 @@ return new class extends Migration
             $table->unsignedBigInteger('room');
             $table->boolean('is_discharged')->default(false);
             $table->timestamps();
-        });
-
-        Schema::table('patients', function (Blueprint $table) {
             $table->foreign('room')->references('id')->on('rooms');
         });
+
+        // Schema::table('patients', function (Blueprint $table) {
+        //     $table->foreign('room')->references('id')->on('rooms');
+        // });
     }
 
     /**
@@ -35,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('patients');
     }
 };
