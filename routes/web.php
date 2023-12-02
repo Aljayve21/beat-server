@@ -64,6 +64,9 @@ Route::prefix('/tab1')->group(function () {
     // Route for getting room data
     Route::get('/get-rooms', [PatientController::class, 'getRooms'])->name('tab1.getRooms');
     
+    Route::get('/fetch-patient-details/{roomId}', [PatientController::class, 'fetchPatientDetails'])->name('tab1.fetchPatientDetails');
+    
+    
 });
 
 // Route::get('/tab2', function () {
@@ -93,6 +96,10 @@ Route::get('/tab2', [DashboardController::class, 'showDashboard'])->name('tab2')
         Route::delete('destroy/{id}', 'destroy')->name('patients.destroy');
         Route::post('discharge/{id}', 'discharged')->name('patients.discharge');
     });
+
+    
+
+    Route::get('/hospital_records', [HospitalRecordController::class, 'hospitalRecords'])->name('hospital_records');
 
     Route::get('/patients', [PatientController::class, 'index'])->name('patients');
 

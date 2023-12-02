@@ -96,7 +96,7 @@
   <!-- Page level plugins -->
   <script src="{{ asset('admin_assets/vendor/chart.js/Chart.min.js') }}"></script>
   <script src="{{ asset('js/datepicker.js') }}"></script>
-  <script src="{{ asset('js/roomNotifications.js') }}"></script>
+  <script src="{{ asset('js/showNotifications.js') }}"></script>
   <script src="{{ asset('js/dashboard.js') }}"></script>
   
 </body>

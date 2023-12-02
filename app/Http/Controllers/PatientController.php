@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Models\VitalSign;
+use App\Models\HospitalRecord;
 use Illuminate\Support\Facades\Log;
 
 class PatientController extends Controller
@@ -76,9 +77,13 @@ class PatientController extends Controller
 
     public function hospitalRecords()
     {
-        $dischargedPatients = Patient::where('is_discharged', true)->get();
+        // $dischargedPatients = Patient::where('is_discharged', true)->get();
+        
 
-        return view('hospitalrecords', compact('dischargedPatients'));
+        // return view('hospitalrecords', compact('dischargedPatients'));
+        $hospitalRecords = HospitalRecord::all();
+
+        return view('hospitalrecords', compact('hospitalRecords'));
     }
 
     public function vitalSigns()
@@ -105,6 +110,8 @@ class PatientController extends Controller
         'pulse_rate' => 'required|numeric',
     ]);
 
+    
+
     try {
         $patient = Patient::findOrFail($request->input('patient_id'));
 
@@ -128,6 +135,36 @@ class PatientController extends Controller
         return redirect()->route('patients.scan-vital-signs')->with('error', 'Error adding vital sign.');
     }
     }
+
+    public function fetchPatientDetails($roomId)
+{
+    
+    dd("Debugging fetchPatientDetails", $roomId);
+
+    $patient = Patient::where('room_id', $roomId)->first();
+
+    if (!$patient) {
+        return response()->json(['error' => 'Patient not found'], 404);
+    }
+
+    $data = [
+        'patientName' => $patient->name,
+        'respiratoryRate' => $patient->respiratory_rate,
+        'temperature' => $patient->temperature,
+        'pulseRate' => $patient->pulse_rate,
+        'date_of_admit' => $patient->date_of_admit,
+        'date_for_discharged' => $patient->date_for_discharged,
+        'heart_rate' => $patient->heart_rate,
+        'respiratory' => $patient->respiratory,
+        'blood_pressure' => $patient->blood_pressure,
+        'spo2' => $patient->spo2,
+        'date' => $patient->date,
+        'time' => $patient->time,
+        'name' => $patient->name,
+    ];
+
+    return response()->json($data);
+}
 
     public function getRooms()
     {

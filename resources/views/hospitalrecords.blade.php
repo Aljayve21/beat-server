@@ -7,14 +7,21 @@
 @section('contents')
     <h1>Hospital Records</h1>
 
-    @if(count($hospitalRecords) > 0)
-        <ul>
-            @foreach($hospitalRecords as $record)
-                <li>{{ $record->name }} - {{ $record->room }} - {{ $record->other_field }}</li>
-                <!-- Adjust the fields based on your actual HospitalRecord model -->
-            @endforeach
-        </ul>
-    @else
-        <p>No hospital records found.</p>
-    @endif
+    <ul>
+        @forelse ($hospitalRecords as $record)
+            <li>
+                {{-- Display record details here --}}
+                Date of Admit: {{ $record->date_of_admit }}
+                Date of Discharge: {{ $record->date_for_discharged }}
+                Name: {{ $record->name }}
+                Heart Rate: {{ $record->heart_rate }}
+                Respiratory Rate: {{ $record->respiratory }}
+                Blood Pressure: {{ $record->blood_pressure }}
+                Temperature: {{ $record->temperature }}
+                Spo2: {{ $record->spo2 }}
+            </li>
+        @empty
+            <p>No hospital records found.</p>
+        @endforelse
+    </ul>
 @endsection
