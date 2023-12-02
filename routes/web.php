@@ -65,6 +65,8 @@ Route::prefix('/tab1')->group(function () {
     Route::get('/get-rooms', [PatientController::class, 'getRooms'])->name('tab1.getRooms');
     
     Route::get('/fetch-patient-details/{roomId}', [PatientController::class, 'fetchPatientDetails'])->name('tab1.fetchPatientDetails');
+    Route::post('/tab1/discharge-patient/{roomId}', [PatientController::class, 'dischargePatient'])->name('tab1.dischargePatient');
+
     
     
 });

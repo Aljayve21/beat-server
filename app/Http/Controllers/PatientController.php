@@ -166,6 +166,34 @@ class PatientController extends Controller
     return response()->json($data);
 }
 
+public function dischargePatient($roomId)
+{
+    
+    $patient = Patient::where('room_id', $roomId)->first();
+
+    if (!$patient) {
+        return redirect()->route('tab1')->with('error', 'Patient not found for room number ' . $roomId);
+    }
+
+    
+    $hospitalRecord = new HospitalRecord([
+        'date_of_admit' => $patient->date_of_admit,
+        'date_for_discharged' => now(),
+        'name' => $patient->name,
+        'heart_rate' => $patient->heart_rate,
+        'respiratory_rate' => $patient->respiratory_rate,
+        'blood_pressure' => $patient->blood_pressure,
+        'temperature' => $patient->temperature,
+        'spo2' => $patient->spo2,
+    ]);
+
+    $hospitalRecord->save();
+
+    $patient->delete();
+
+    return redirect()->route('tab1')->with('success', 'Patient discharged and Hospital record created.');
+}
+
     public function getRooms()
     {
         $rooms = [];

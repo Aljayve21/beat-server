@@ -3,8 +3,17 @@ $(document).ready(function () {
         var button = $(event.relatedTarget); 
         var roomId = button.data('room-id'); 
 
+        function getRoomId() {
+            // Get the room ID from the hidden input field
+            var roomId = $('#roomIdInput').val();
+            return roomId;
+        }
+        
+
         
         $.ajax({
+
+            
             url: '/tab1/fetch-patient-details/' + roomId, 
             method: 'GET',
             success: function (data) {
@@ -23,9 +32,19 @@ $(document).ready(function () {
 
         // Handle "Discharged" button click
         $('#dischargeButton').on('click', function () {
-            // Perform the action when the "Discharged" button is clicked
-            // Example: Close the modal
-            $('#exampleModal').modal('hide');
+            var roomId = getRoomId;
+        $.ajax({
+        url: '/tab1/discharge-patient/' + roomId,
+        method: 'POST',
+        success: function (response) {
+            
+            console.log(response);
+        },
+        error: function (error) {
+            
+            console.error(error);
+        }
+        });
         });
     });
 });
