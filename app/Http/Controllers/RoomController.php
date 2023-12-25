@@ -134,7 +134,7 @@ class RoomController extends Controller
                     'date_of_admit' => $patient->date_of_admit,
                     'date_for_discharged' => now(),
                     'heart_rate' => $vitals->heart_rate,
-                    'respiratory_rate' => $vitals->respiratory_rate, 
+                    'respiratory' => $vitals->respiratory_rate, 
                     'blood_pressure' => $vitals->blood_pressure,
                     'temperature' => $vitals->temperature,
                     'spo2' => $vitals->spo2,
@@ -194,7 +194,6 @@ public function dischargePatient(Request $request)
             'temperature' => $vitals->temperature,
             'spo2' => $vitals->spo2,
             'time' => now(),
-            'name' => $patient->name,
         ];
 
         if ($patient->is_discharged) {

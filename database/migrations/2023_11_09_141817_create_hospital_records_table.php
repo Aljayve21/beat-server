@@ -17,7 +17,7 @@ return new class extends Migration
         $table->date('date_of_admit');
         $table->date('date_for_discharged');
         $table->string('heart_rate');
-        $table->decimal('respiratory_rate', 5, 2);
+        $table->decimal('respiratory', 5, 2);
         $table->string('blood_pressure');
         $table->decimal('temperature', 5, 2);
         $table->integer('spo2');

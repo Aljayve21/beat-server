@@ -183,7 +183,7 @@ class PatientController extends Controller
             'date_for_discharged' => now(),
             'name' => $patient->name,
             'pulse_rate' => $patient->pulse_rate,
-            'respiratory_rate' => $patient->respiratory_rate,
+            'respiratory' => $patient->respiratory_rate,
             'blood_pressure' => $patient->blood_pressure,
             'temperature' => $patient->temperature,
             'spo2' => $patient->spo2,

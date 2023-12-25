@@ -71,12 +71,8 @@ Route::prefix('/tab1')->group(function () {
     
 });
 
-Route::prefix('/tab2')->group(function () {
-    Route::get('/', [DashboardController::class, 'showDashboard'])->name('tab2');
-    Route::get('/get-rooms', [PatientController::class, 'getRooms'])->name('tab2.getRooms');
-    Route::get('/fetch-patient-details/{roomId}', [PatientController::class, 'fetchPatientDetails'])->name('tab2.fetchPatientDetails');
-    Route::post('/updateRoomColorAndReturnButtonClass/{id}', [RoomController::class, 'updateRoomColorAndReturnButtonClass']);
- });
+// Route::prefix('/tab2')->group(function () {
+//  });
 
 Route::get('/tab2', [DashboardController::class, 'showDashboard'])->name('tab2');
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('room');
             $table->string('heart_rate');
-            $table->decimal('respiratory',5,2);
+            $table->decimal('respiratory_rate',5,2);
             $table->string('blood_pressure');
             $table->decimal('temperature',5,2);
             $table->integer('spo2');
