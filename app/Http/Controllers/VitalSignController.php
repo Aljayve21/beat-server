@@ -31,10 +31,11 @@ class VitalSignController extends Controller
             ];
 
             $request->validate($validationRules);
-
+            $patient = Patient::findOrFail($requestData['patient_id']);
             
             $vitalSign = new VitalSign([
                 'patient_id' => $requestData['patient_id'],
+                'room' => $patient->room,
                 'heart_rate' => $requestData['heart_rate'],
                 'respiratory_rate' => $requestData['respiratory_rate'],
                 'blood_pressure' => $requestData['blood_pressure'],

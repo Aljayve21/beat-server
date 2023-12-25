@@ -53,12 +53,37 @@
 
         <div class="input-group mb-3">
             <label class="input-group-text" for="room">Room Choice: </label>
-            <select name="room" class="room" id="room" required>
+            <select name="room" class="room" id="room" required onchange="updateRoomAvailability(this.value)">
                 @for ($i = 1; $i <= 14; $i++)
                     <option value="{{ $i }}">Room {{ $i }}</option>
                 @endfor
             </select>
         </div>
+        <div id="availability-status"></div>
+        
+        <script>
+            function updateRoomAvailability(selectedRoom) {
+                const updateRoomUrl = `/rooms/update-room-availability/${selectedRoom}`;
+        
+                $.ajax({
+                    url: updateRoomUrl,
+                    type: 'GET',
+                    success: function(response) {
+                        console.log(response);
+        
+                        if(response.available) {
+                            alert(`Room ${selectedRoom} is available`);
+                        } else {
+                            alert(`Room ${selectedRoom} is occupied`);
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Error updating room availability:', error);
+                    }
+                });
+            }
+        </script>
+        
 
         
 

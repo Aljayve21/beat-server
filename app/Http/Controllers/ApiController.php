@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\VitalSign;
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
     public function insertVitalSigns(Request $request)
     {
         // Validate request data if necessary
-        \Log::info('Received data:', $request->all());
+        Log::info('Received data:', $request->all());
         $heartRate = $request->input('heart_rate');
         $respiratoryRate = $request->input('respiratory_rate');
         $bloodPressure = $request->input('blood_pressure');

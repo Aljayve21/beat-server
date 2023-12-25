@@ -11,6 +11,7 @@ class HospitalRecord extends Model
     use HasFactory;
 
     protected $fillable = [
+        'patient_id',
         'date_of_admit',
         'date_for_discharged',
         'heart_rate',
@@ -18,9 +19,12 @@ class HospitalRecord extends Model
         'blood_pressure',
         'temperature',
         'spo2',
-        'date',
         'time',
-        'name', 
+        'name'
     ];
-    
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
 }

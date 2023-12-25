@@ -11,6 +11,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\HospitalRecordController; 
 use App\Http\Controllers\RoomController;
+use App\Models\HospitalRecord;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,26 +56,27 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
 Route::prefix('/tab1')->group(function () {
-    // The new route for creating hospital records
-    Route::get('/', [DashboardController::class, 'showDashboard'])->name('tab1');
     
-    // Other routes related to tab1
-    // ...
-
-    // Route for getting room data
+    Route::get('/', [DashboardController::class, 'showDashboard'])->name('tab1');
+    //Route::get('/dashboard/discharge/{roomId}', [HospitalRecordController::class, 'dischargedPatient']);
+    
+    
     Route::get('/get-rooms', [PatientController::class, 'getRooms'])->name('tab1.getRooms');
     
     Route::get('/fetch-patient-details/{roomId}', [PatientController::class, 'fetchPatientDetails'])->name('tab1.fetchPatientDetails');
-    Route::post('/tab1/discharge-patient/{roomId}', [PatientController::class, 'dischargePatient'])->name('tab1.dischargePatient');
-
+    
+    
+    Route::post('/updateRoomColorAndReturnButtonClass/{id}', [RoomController::class, 'updateRoomColorAndReturnButtonClass']);
     
     
 });
 
-// Route::get('/tab2', function () {
-//     $roomData = [];
-//     return view('dashboard', compact('roomData'));
-// });
+Route::prefix('/tab2')->group(function () {
+    Route::get('/', [DashboardController::class, 'showDashboard'])->name('tab2');
+    Route::get('/get-rooms', [PatientController::class, 'getRooms'])->name('tab2.getRooms');
+    Route::get('/fetch-patient-details/{roomId}', [PatientController::class, 'fetchPatientDetails'])->name('tab2.fetchPatientDetails');
+    Route::post('/updateRoomColorAndReturnButtonClass/{id}', [RoomController::class, 'updateRoomColorAndReturnButtonClass']);
+ });
 
 Route::get('/tab2', [DashboardController::class, 'showDashboard'])->name('tab2');
 
@@ -102,19 +104,25 @@ Route::get('/tab2', [DashboardController::class, 'showDashboard'])->name('tab2')
     
 
     Route::get('/hospital_records', [HospitalRecordController::class, 'hospitalRecords'])->name('hospital_records');
-
+    Route::get('/update-room-availability/{roomId}', [RoomController::class, 'updateRoomAvailability']);
     Route::get('/patients', [PatientController::class, 'index'])->name('patients');
 
     Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    Route::post('/update-room-color/{id}', [RoomController::class, 'updateRoomColorAndReturnButtonClass']);
+    Route::get('/truncate-rooms', [RoomController::class, 'truncateRoomsTable'])->name('truncate-rooms');
     Route::post('/api/insert-vital-signs', [ApiController::class, 'insertVitalSigns']);
-
+    //Route::post('/rooms/fetch-and-discharge', [RoomController::class, 'fetchAndDischargePatient'])->name('rooms.fetchAndDischargePatient');
     Route::get('/rooms/get-patient-details', [RoomController::class, 'getPatientDetails'])->name('rooms.getPatientDetails');
-
-    
+    Route::post('/hospital-records', [HospitalRecordController::class, 'store'])->name('hospital-records.store');
+    Route::post('/hospital-records/discharge', [HospitalRecordController::class, 'discharge'])->name('hospital_records.discharge');
+    Route::get('/hospital-records', [HospitalRecordController::class, 'index'])->name('hospital_records.index');
     Route::get('/hospitalrecords', [PatientController::class, 'hospitalRecords'])->name('hospitalrecords');
     Route::get('patients/{room}', [PatientController::class, 'PatientsByRoom'])->name('PatientsByRoom');
     Route::get('vital-signs/{room}', [VitalSignController::class, 'VitalSignsByRoom'])->name('VitalSignsByRoom');
-    
+    Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+    Route::post('/rooms', [RoomController::class, 'store'])->name('rooms.store');
+    // web.php or routes file
+    Route::match(['get', 'post'], '/rooms/discharge', [RoomController::class, 'dischargePatient'])->name('rooms.dischargePatient');
     //Route::post('/insert-vital-signs', [ApiController::class, 'insertVitalSigns']);    
     Route::get('/profile', [App\Http\Controllers\AuthController::class, 'profile'])->name('profile');
     Route::get('/attendance', [App\Http\Controllers\TimeLogController::class, 'attendance'])->name('attendance');

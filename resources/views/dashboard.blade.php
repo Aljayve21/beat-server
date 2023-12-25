@@ -110,7 +110,7 @@
 </div>
 
 <h1 class="text-center">Bed Selection</h1>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -133,74 +133,148 @@
       <div class="row">
 
         
-        <div class="col-lg-3 mt-3">
+        <div class="col-lg-3 mt-3 mx-auto">
           <div class="card" style="width: 10rem;">
               <div class="card-body">
-                <h5 class="card-title text-center">BED</h5>
-                <!-- Button trigger modal -->
-                @foreach ($rooms as $room)
-                <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal" data-room-id="{{ $room->id }}">
-                    Room {{ $room->id }}
-                </button>
-            @endforeach
+                  {{-- <h5 class="card-title text-center">BED</h5> --}}
+                  <!-- Button trigger modal -->
+                  @foreach ($rooms as $room)
+                  <button type="button" class="btn btn-success mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $room->id }}" data-room-id="{{ $room->id }}" data-bs-room-name="{{ $room->name }}">
+                      Room {{ $room->name }} 
+                      
+                  </button>
                   
-
-                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="col mb-3">
-                                <label class="form-label">Patient's Name</label>
-                                <input type="text" name="name" class="form-control" value="" readonly>
+              @endforeach
+                  
+                  @foreach ($rooms as $room)
+                      <div class="modal fade" id="exampleModal{{ $room->id }}" tabindex="-1"
+                          aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                          aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                      <div class="col mb-3">
+                                          <label class="form-label">Patient's Name</label>
+                                          <input type="text" name="name" class="form-control" value="" readonly>
+                                      </div>
+                                      <div class="col mb-3">
+                                        <label class="form-label">Room</label>
+                                        <input type="text" name="room" class="form-control" value="" readonly>
+                                      </div>
+                                      <div class="col mb-3">
+                                        <label class="form-label">Blood Pressure</label>
+                                        <input type="text" name="blood_pressure" class="form-control" value="" readonly>
+                                      </div>
+                                      <div class="col mb-3">
+                                        <label class="form-label">Respiratory Rate</label>
+                                        <input type="text" name="respiratory_rate" class="form-control" value="" readonly>
+                                      </div>
+                                      <div class="col mb-3">
+                                        <label class="form-label">Temperature</label>
+                                        <input type="text" name="temperature" class="form-control" value="" readonly>
+                                      </div>
+                                      <div class="col mb-3">
+                                        <label class="form-label">Spo2</label>
+                                        <input type="text" name="spo2" class="form-control" value="" readonly>
+                                      </div>
+                                      <div class="col mb-3">
+                                        <label class="form-label">Pulse Rate</label>
+                                        <input type="text" name="pulse_rate" class="form-control" value="" readonly>
+                                      </div>
+                                      <button type="button" class="btn btn-danger discharge-button" data-room-id="{{ $room->id }}" data-bs-dismiss="modal" onclick="dischargePatientAjax({{ $room->id }})">Discharged</button>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    
+                                    </div>                                
                               </div>
-                              <div class="col mb-3">
-                                <label class="form-label">Room</label>
-                                <input type="text" name="room" class="form-control" value="" readonly>
-                              </div>
-                              {{-- <div class="col mb-3">
-                                <label class="form-label">heart_rate</label>
-                                <input type="text" name="heart_rate" class="form-control" value="" readonly>
-                              </div> --}}
-                              <div class="col mb-3">
-                                <label class="form-label">Respiratory Rate</label>
-                                <input type="text" name="respiratory_rate" class="form-control" value="" readonly>
-                              </div>
-                              <div class="col mb-3">
-                                <label class="form-label">Temperature</label>
-                                <input type="text" name="temperature" class="form-control" value="" readonly>
-                              </div>
-                              {{-- <div class="col mb-3">
-                                <label class="form-label">Spo2</label>
-                                <input type="text" name="spo2" class="form-control" value="" readonly>
-                              </div> --}}
-                              <div class="col mb-3">
-                                <label class="form-label">Pulse Rate</label>
-                                <input type="text" name="Pulse Rate" class="form-control" value="" readonly>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-danger" id="dischargeButton">Discharged</button>
-                            </div>
-
                           </div>
-                        </div>
                       </div>
-
+                  @endforeach
+      
               </div>
           </div>
-        </div>
+      </div>
+      
             
        
       </div>
     </div>
 
     <div class="tab-pane {{ request()->is('tab2') ? 'active' : null }}" id="{{ url('tab2') }}" role="tabpanel">
-      ....
+      
+
+      <div class="col-lg-3 mt-3 mx-auto">
+        <div class="card" style="width: 10rem;">
+            <div class="card-body">
+                {{-- <h5 class="card-title text-center">BED</h5> --}}
+                <!-- Button trigger modal -->
+                @foreach ($rooms as $room)
+                <button type="button" class="btn btn-success mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $room->id }}" data-room-id="{{ $room->id }}" data-bs-room-name="{{ $room->name }}">
+                    Room {{ $room->name }} 
+                    
+                </button>
+                
+            @endforeach
+                
+                @foreach ($rooms as $room)
+                    <div class="modal fade" id="exampleModal{{ $room->id }}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="exampleModalLabel"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col mb-3">
+                                        <label class="form-label">Patient's Name</label>
+                                        <input type="text" name="name" class="form-control" value="" readonly>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <label class="form-label">Room</label>
+                                      <input type="text" name="room" class="form-control" value="" readonly>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <label class="form-label">Blood Pressure</label>
+                                      <input type="text" name="blood_pressure" class="form-control" value="" readonly>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <label class="form-label">Respiratory Rate</label>
+                                      <input type="text" name="respiratory_rate" class="form-control" value="" readonly>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <label class="form-label">Temperature</label>
+                                      <input type="text" name="temperature" class="form-control" value="" readonly>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <label class="form-label">Spo2</label>
+                                      <input type="text" name="spo2" class="form-control" value="" readonly>
+                                    </div>
+                                    <div class="col mb-3">
+                                      <label class="form-label">Pulse Rate</label>
+                                      <input type="text" name="pulse_rate" class="form-control" value="" readonly>
+                                    </div>
+                                    <button type="button" class="btn btn-danger discharge-button" data-room-id="{{ $room->id }}" data-bs-dismiss="modal" onclick="dischargePatientAjax({{ $room->id }})">Discharged</button>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  
+                                  </div>                                
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+    
+            </div>
+        </div>
+    </div>
+    
     </div>
   </div>
 

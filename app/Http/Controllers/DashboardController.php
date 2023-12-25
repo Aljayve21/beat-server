@@ -9,6 +9,7 @@ use App\Models\VitalSign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PatientController;
+use App\Models\HospitalRecord;
 use App\Http\Controllers\VitalSignController;
 use App\Models\Room;
 class DashboardController extends Controller
@@ -36,10 +37,14 @@ class DashboardController extends Controller
         }
     }
 
+    
+
     $rooms = Room::all();
 
     return view('dashboard', compact('rooms')); 
     }
 
     
+
+
 }

@@ -19,6 +19,7 @@ class VitalSign extends Model
         'temperature',
         'spo2',
         'pulse_rate',
+        'room'
     ];
 
     public function patient()
@@ -30,5 +31,12 @@ class VitalSign extends Model
     {
         return static::where('room', $patientRoom)->latest()->first();
     }
+
+    public function hospitalRecord()
+    {
+    return $this->hasOne(HospitalRecord::class, 'vital_sign_id');
+    }
+
+    
 }
 

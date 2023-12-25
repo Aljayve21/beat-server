@@ -29,5 +29,10 @@ class Patient extends Model
         return $this->hasMany(VitalSign::class, 'room', 'room');
     }
 
+    public function hospitalRecords()
+    {
+    return $this->hasMany(HospitalRecord::class);
+    }
+
     
 }

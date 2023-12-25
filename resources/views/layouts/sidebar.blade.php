@@ -17,6 +17,12 @@
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dashboard</span></a>
   </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('rooms.index') }}">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Rooms</span></a>
+  </li>
   
   <li class="nav-item">
     <a class="nav-link" href="{{ route('patients') }}">

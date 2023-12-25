@@ -9,11 +9,18 @@ class Room extends Model
 {
     use HasFactory;
 
-    private function isRoomAvailable($roomChoice)
-{
-    // Check if the selected room is available
-    $room = Room::find($roomChoice);
+    protected $fillable = [
+        'name', 
+        'available',
+        'status',
+        'emergency_status',
+    ];
 
-    return $room && $room->available;
-}
+    public function isRoomAvailable($roomChoice)
+    {
+        
+        $room = Room::find($roomChoice);
+
+        return $room && $room->available;
+    }
 }

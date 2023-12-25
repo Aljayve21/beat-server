@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->boolean('is_discharged')->default(false);
             $table->timestamps();
             $table->foreign('room')->references('id')->on('rooms');
+            $table->date('date_of_admit')->default(now());
         });
 
         // Schema::table('patients', function (Blueprint $table) {
@@ -31,11 +33,23 @@ return new class extends Migration
         // });
     }
 
+    
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('patients');
+    
+    $patientId = 1;
+
+    // Delete related vital signs
+    DB::table('vital_signs')->where('patient_id', '=', $patientId)->delete();
+
+    // Delete related hospital records
+    DB::table('hospital_records')->where('patient_id', '=', $patientId)->delete();
+
+    Schema::dropIfExists('patients');
     }
+
 };

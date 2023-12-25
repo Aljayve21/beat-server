@@ -15,12 +15,11 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patient = Patient::orderBy('created_at', 'DESC')->get();
+    $patient = Patient::where('is_discharged', 0)->orderBy('created_at', 'DESC')->get();
 
-        return view('patients.index', compact('patient'));
-
-       
+    return view('patients.index', compact('patient'));
     }
+
     public function create()
     {
         return view('patients.create');
@@ -48,6 +47,7 @@ class PatientController extends Controller
     }
 
     $data['is_discharged'] = $request->has('is_discharged');
+    $data['date_of_admit'] = now();
 
     try {
         
@@ -62,7 +62,7 @@ class PatientController extends Controller
         dd($e->getMessage());
     }
 
-    return redirect()->route('patients.index', $patient->id)->with('success', 'Patient added successfully');
+    return redirect()->route('patients', $patient->id)->with('success', 'Patient added successfully');
 }
 
 
@@ -77,13 +77,13 @@ class PatientController extends Controller
 
     public function hospitalRecords()
     {
-        // $dischargedPatients = Patient::where('is_discharged', true)->get();
+        
         
 
-        // return view('hospitalrecords', compact('dischargedPatients'));
+        
         $hospitalRecords = HospitalRecord::all();
 
-        return view('hospitalrecords', compact('hospitalRecords'));
+        return view('hospitalrecords.index', compact('hospitalRecords'));
     }
 
     public function vitalSigns()
@@ -114,9 +114,10 @@ class PatientController extends Controller
 
     try {
         $patient = Patient::findOrFail($request->input('patient_id'));
-
+    
         $vitalSign = VitalSign::create([
             'patient_id' => $patient->id,
+            'room' => $patient->room,
             'heart_rate' => $request->input('heart_rate'),
             'respiratory_rate' => $request->input('respiratory_rate'),
             'blood_pressure' => $request->input('blood_pressure'),
@@ -124,20 +125,19 @@ class PatientController extends Controller
             'spo2' => $request->input('spo2'),
             'pulse_rate' => $request->input('pulse_rate'),
         ]);
-
-        // Fetch the updated vital signs for the patient
         $vitalSigns = VitalSign::where('room', $patient->room)->get();
-
+    
         return redirect()->route('patients.scan-vital-signs')->with('success', 'Vital signs added successfully.')->with(compact('vitalSigns', 'patient'));
     } catch (\Exception $e) {
         Log::error($e);
-
+    
         return redirect()->route('patients.scan-vital-signs')->with('error', 'Error adding vital sign.');
     }
+    
     }
 
     public function fetchPatientDetails($roomId)
-{
+    {
     
     dd("Debugging fetchPatientDetails", $roomId);
 
@@ -164,35 +164,45 @@ class PatientController extends Controller
     ];
 
     return response()->json($data);
-}
-
-public function dischargePatient($roomId)
-{
-    
-    $patient = Patient::where('room_id', $roomId)->first();
-
-    if (!$patient) {
-        return redirect()->route('tab1')->with('error', 'Patient not found for room number ' . $roomId);
     }
 
-    
-    $hospitalRecord = new HospitalRecord([
-        'date_of_admit' => $patient->date_of_admit,
-        'date_for_discharged' => now(),
-        'name' => $patient->name,
-        'heart_rate' => $patient->heart_rate,
-        'respiratory_rate' => $patient->respiratory_rate,
-        'blood_pressure' => $patient->blood_pressure,
-        'temperature' => $patient->temperature,
-        'spo2' => $patient->spo2,
-    ]);
+    public function dischargePatient($roomId)
+{
+    // Find the patient in the specified room
+    $patient = Patient::where('room_id', $roomId)->first();
 
-    $hospitalRecord->save();
+    // Check if the patient exists
+    if (!$patient) {
+        return response()->json(['error' => 'Patient not found for room number ' . $roomId], 404);
+    }
 
-    $patient->delete();
+    try {
+        // Create a new HospitalRecord using the patient's data
+        $hospitalRecord = new HospitalRecord([
+            'date_of_admit' => $patient->date_of_admit,
+            'date_for_discharged' => now(),
+            'name' => $patient->name,
+            'pulse_rate' => $patient->pulse_rate,
+            'respiratory_rate' => $patient->respiratory_rate,
+            'blood_pressure' => $patient->blood_pressure,
+            'temperature' => $patient->temperature,
+            'spo2' => $patient->spo2,
+        ]);
 
-    return redirect()->route('tab1')->with('success', 'Patient discharged and Hospital record created.');
+        // Save the hospital record
+        $hospitalRecord->save();
+
+        // Delete the patient
+        $patient->delete();
+
+        // Return a success response
+        return response()->json(['success' => 'Patient discharged and Hospital record created.']);
+    } catch (\Exception $e) {
+        // Handle any exceptions and return an error response
+        return response()->json(['error' => 'Error discharging patient. ' . $e->getMessage()], 500);
+    }
 }
+
 
     public function getRooms()
     {

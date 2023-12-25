@@ -5,7 +5,7 @@
 <hr />
 <div class="d-flex align-items-center justify-content-between">
     <h1 class="mb-0">Current Admit List</h1>
-    {{-- <a href="{{ route('patients.scan') }}" class="btn btn-primary">Scan Vital Sign</a> --}}
+    <a href="{{ route('patients.scan') }}" class="btn btn-primary">Scan Vital Sign</a>
 </div>
 <hr />
 
